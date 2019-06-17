@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_rl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#c9d4f6"
+    android:padding="10dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/dialog_titile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#a2abcd"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:fontFamily="@font/proxima_nova_light"
+        android:text="Confirm Submission"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dialog_tv"
+        android:textColor="@color/black"
+        android:fontFamily="@font/proxima_nova_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_titile"
+        android:padding="15dp"
+        android:text="Want to save the information?" />
+
+    <Button
+        android:id="@+id/dialog_neutral_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:fontFamily="@font/proxima_nova_light"
+        android:textStyle="bold"
+        android:padding="@dimen/dimen_5dp"
+        android:layout_below="@id/dialog_tv"
+        android:background="@drawable/button_bg"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/dialog_positive_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green"
+        android:padding="@dimen/dimen_5dp"
+        android:fontFamily="@font/proxima_nova_light"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@id/dialog_neutral_btn"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/button_bg"
+        android:text="Yes"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/dialog_negative_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/dialog_neutral_btn"
+        android:layout_marginRight="3dp"
+        android:layout_toLeftOf="@id/dialog_positive_btn"
+        android:background="@drawable/button_bg"
+        android:text="No" />
+</RelativeLayout>
