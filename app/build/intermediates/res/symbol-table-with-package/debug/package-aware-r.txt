@@ -1277,6 +1277,8 @@ drawable avd_hide_password
 drawable avd_show_password
 drawable bg_sp_back
 drawable border
+drawable btn_shape_capsule
+drawable btn_shape_capsule2
 drawable button_bg
 drawable calendar
 drawable common_full_open_on_phone
@@ -1336,6 +1338,7 @@ drawable notify_panel_notification_icon_bg
 drawable rectangle
 drawable rectangle2
 drawable retry
+drawable round
 drawable round_button
 drawable round_layout_otp
 drawable round_layout_white_otp
@@ -1381,6 +1384,7 @@ id alertTitle
 id all
 id always
 id async
+id attendance
 id auto
 id barrier
 id beginning
@@ -1654,14 +1658,15 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_attendance
 layout activity_leave_apply
 layout activity_login
-layout activity_main
 layout activity_network_connecction
 layout activity_network_connection
 layout activity_next
 layout activity_splash
 layout activity_task_list
+layout activity_welcome
 layout alertdialog_custom_view
 layout custom_dialog
 layout custom_dialog2

@@ -3,6 +3,7 @@ package com.sunanda.attendance_kotlin
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -52,7 +53,7 @@ class LeaveApply : AppCompatActivity() {
     internal lateinit var task: EditText
 
     internal var myCalendar = Calendar.getInstance()
-    internal var date: DatePickerDialog.OnDateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+    internal var date: DatePickerDialog.OnDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         myCalendar.set(Calendar.YEAR, year)
         myCalendar.set(Calendar.MONTH, monthOfYear)
         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -60,7 +61,7 @@ class LeaveApply : AppCompatActivity() {
     }
 
     internal var myCalendar2 = Calendar.getInstance()
-    internal var date2: DatePickerDialog.OnDateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+    internal var date2: DatePickerDialog.OnDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         myCalendar2.set(Calendar.YEAR, year)
         myCalendar2.set(Calendar.MONTH, monthOfYear)
         myCalendar2.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -83,7 +84,7 @@ class LeaveApply : AppCompatActivity() {
         task.imeOptions = EditorInfo.IME_ACTION_DONE
         task.setRawInputType(InputType.TYPE_CLASS_TEXT)
 
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        radioGroup.setOnCheckedChangeListener { _, _ ->
             value = (findViewById<View>(radioGroup.checkedRadioButtonId) as RadioButton)
                     .text.toString().trim { it <= ' ' }
             //Toast.makeText(getBaseContext(), value, Toast.LENGTH_SHORT).show();
@@ -113,7 +114,7 @@ class LeaveApply : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(this@LeaveApply, date, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                     myCalendar.get(Calendar.DAY_OF_MONTH))
-            myCalendar.add(Calendar.DAY_OF_MONTH, 1)
+            //myCalendar.add(Calendar.DAY_OF_MONTH, 1)
             datePickerDialog.show()
             //datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
             datePickerDialog.datePicker.minDate = Date().time
@@ -140,7 +141,7 @@ class LeaveApply : AppCompatActivity() {
                 else {
                     Sdate = start_date.text.toString()
                     Edate = Sdate
-                    SendData()
+                    sendLeaveInfo()
                 }
             } else {
                 if (start_date.text.toString().equals("select start date", ignoreCase = true))
@@ -154,7 +155,7 @@ class LeaveApply : AppCompatActivity() {
                 else {
                     Sdate = start_date.text.toString()
                     Edate = end_date.text.toString()
-                    SendData()
+                    sendLeaveInfo()
                 }
             }
         }
@@ -201,9 +202,38 @@ class LeaveApply : AppCompatActivity() {
 
         restart.setOnClickListener {
             dialog.dismiss()
+            showDialog2()
+        }
+        dialog.show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showDialog2() {
+
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        dialog.setContentView(R.layout.custom_dialog2)
+        dialog.setCancelable(false)
+
+        val btn_yes = dialog.findViewById<View>(R.id.btn_yes) as Button
+        val btn_no = dialog.findViewById<View>(R.id.btn_no) as Button
+
+        val title_txt = dialog.findViewById<TextView>(R.id.txt_dia)
+        title_txt.text = "Do you want to stay in the App?"
+
+        btn_yes.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this@LeaveApply, AttendanceActivity::class.java))
             overridePendingTransition(R.anim.right_in, R.anim.left_out)
             finish()
         }
+        btn_no.setOnClickListener {
+            dialog.dismiss()
+            overridePendingTransition(R.anim.right_in, R.anim.left_out)
+            finish()
+        }
+
         dialog.show()
     }
 
@@ -228,7 +258,7 @@ class LeaveApply : AppCompatActivity() {
         return daysBetween
     }
 
-    private fun SendData() {
+    private fun sendLeaveInfo() {
 
         val httpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -284,6 +314,7 @@ class LeaveApply : AppCompatActivity() {
         val id = item.itemId
         if (id == android.R.id.home) {
             super.onBackPressed()
+            startActivity(Intent(this@LeaveApply, WelcomeActivity::class.java))
             overridePendingTransition(R.anim.right_in, R.anim.left_out)
             finish()
         }
@@ -292,6 +323,7 @@ class LeaveApply : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        startActivity(Intent(this@LeaveApply, WelcomeActivity::class.java))
         overridePendingTransition(R.anim.right_in, R.anim.left_out)
         finish()
     }

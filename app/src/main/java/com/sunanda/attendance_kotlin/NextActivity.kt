@@ -70,6 +70,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
     private var mCurrentLocation: Location? = null
     private var current_date = ""
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_next)
@@ -88,7 +89,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
         name.text = sessionManager.name
         email.text = sessionManager.email
 
-        findViewById<View>(R.id.logout).setOnClickListener { Logout() }
+        findViewById<View>(R.id.logout).setOnClickListener { logout() }
 
         findViewById<View>(R.id.fab).setOnClickListener {
             startActivity(Intent(this@NextActivity, TaskListActivity::class.java))
@@ -341,23 +342,23 @@ class NextActivity : AppCompatActivity(), LocationListener {
         dialog.show()
     }
 
-    private fun Logout() {
+    private fun logout() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
         dialog.setContentView(R.layout.exit_dialog)
         dialog.setCancelable(false)
 
-        val btn_cancel = dialog.findViewById<View>(R.id.btn_cancel) as Button
-        val btn_okay = dialog.findViewById<View>(R.id.btn_okay) as Button
+        val btnCancel = dialog.findViewById<View>(R.id.btn_cancel) as Button
+        val btnOkay = dialog.findViewById<View>(R.id.btn_okay) as Button
 
-        btn_okay.setOnClickListener {
+        btnOkay.setOnClickListener {
             dialog.dismiss()
             sessionManager.setLogin(false, "", "", sessionManager.email!!, "", "0000-00-00")
             overridePendingTransition(R.anim.right_in, R.anim.left_out)
             finish()
         }
-        btn_cancel.setOnClickListener { dialog.dismiss() }
+        btnCancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
 

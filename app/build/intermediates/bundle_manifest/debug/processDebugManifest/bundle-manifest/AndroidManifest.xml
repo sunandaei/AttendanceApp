@@ -27,6 +27,9 @@
         android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
+            android:name="com.sunanda.attendance_kotlin.AttendanceActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.sunanda.attendance_kotlin.LeaveApply"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
@@ -51,7 +54,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.MainActivity"
+            android:name="com.sunanda.attendance_kotlin.WelcomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity

@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\7b9ca6c56edf9dc3c74e94014a6e37c1\\res\\values-land\\values-land.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\3f0063cc2d780ccc49ea7a4a28fe6d29\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\5f700355956a167e75cdb745d073b978\\res\\values-land\\values-land.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\fc7e245f18fa0a748a27f8ebc629fc4e\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

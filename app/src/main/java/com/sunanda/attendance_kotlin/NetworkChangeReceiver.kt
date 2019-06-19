@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 
 class NetworkChangeReceiver(internal var context: Context) {
 
-
     val isNetworkAvailable: Boolean
         get() {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

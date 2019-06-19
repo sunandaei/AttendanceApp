@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="#c9d4f6"
     android:padding="10dp"
-    tools:context=".MainActivity">
+    tools:context=".WelcomeActivity">
 
     <TextView
         android:id="@+id/dialog_titile"

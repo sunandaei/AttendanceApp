@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
 
                 val UNAME = uname.text.toString().trim { it <= ' ' }
                 val password = login_password.text.toString().trim { it <= ' ' }
-                if (UNAME.length == 0) {
+                if (UNAME.isEmpty()) {
                     val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
                     uname.startAnimation(shake)
                     uname.error = "Please Enter Email ID"
@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                     uname.startAnimation(shake)
                     uname.error = "Please Enter Valid Email Id"
                     uname.requestFocus()
-                } else if (password.length == 0) {
+                } else if (password.isEmpty()) {
 
                     val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
                     login_password.startAnimation(shake)
@@ -86,9 +86,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        toast("Hello")
-        val imageView : ImageView = findViewById(R.id.login_card);
-        imageView.loadUrl("www.test.com\\image1.png")
+        //toast("Hello")
+        //val imageView : ImageView = findViewById(R.id.login_card)
+        //imageView.loadUrl("www.test.com\\image1.png")
     }
 
     fun Context.toast(text: String) {
@@ -98,7 +98,6 @@ class LoginActivity : AppCompatActivity() {
     fun ImageView.loadUrl(url: String) {
         //Picasso.with(context).load(url).into(this)
     }
-
 
     private fun userLogin(email: String, password: String) {
 
@@ -195,7 +194,7 @@ class LoginActivity : AppCompatActivity() {
 
         restart.setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, WelcomeActivity::class.java))
             overridePendingTransition(R.anim.left_in, R.anim.right_out)
             finish()
         }

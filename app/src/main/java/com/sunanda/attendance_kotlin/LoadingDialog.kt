@@ -9,10 +9,9 @@ import android.view.Window
 
 class LoadingDialog(internal var context: Context) {
 
-    internal var dialog: Dialog
+    private var dialog: Dialog = Dialog(this.context)
 
     init {
-        dialog = Dialog(this.context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.progress_layout)
         val window = dialog.window

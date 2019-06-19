@@ -19,18 +19,21 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.sunanda.attendance_kotlin.LeaveApply"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.sunanda.attendance_kotlin.TaskListActivity"
+            android:name=".AttendanceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.NextActivity"
+            android:name=".LeaveApply"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.SplashActivity"
+            android:name=".TaskListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NextActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,15 +42,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sunanda.attendance_kotlin.LoginActivity"
+            android:name=".LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.MainActivity"
+            android:name=".WelcomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.NetworkConnection"
+            android:name=".NetworkConnection"
             android:screenOrientation="portrait" />
     </application>
 

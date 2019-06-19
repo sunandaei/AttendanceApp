@@ -6,7 +6,7 @@ object PermissionUtil {
 
     fun verifyPermissions(grantResults: IntArray): Boolean {
         // At least one result must be checked.
-        if (grantResults.size < 1) {
+        if (grantResults.isEmpty()) {
             return false
         }
         // Verify that each required permission has been granted, otherwise return false.
