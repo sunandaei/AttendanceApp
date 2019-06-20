@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize">
 
-        <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
@@ -153,7 +153,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/leave"
+            android:id="@+id/out"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

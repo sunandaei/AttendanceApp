@@ -130,7 +130,7 @@ class LeaveApply : AppCompatActivity() {
             datePickerDialog.datePicker.minDate = Date().time
         }
 
-        findViewById<View>(R.id.leave).setOnClickListener {
+        findViewById<View>(R.id.out).setOnClickListener {
             if (TextUtils.isEmpty(value)) {
                 ErrorDialog("Please select your option")
             } else if (value.equals("single day", ignoreCase = true)) {

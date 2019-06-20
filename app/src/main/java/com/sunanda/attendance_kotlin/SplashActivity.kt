@@ -1,6 +1,7 @@
 package com.sunanda.attendance_kotlin
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -9,8 +10,10 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -64,27 +67,44 @@ class SplashActivity : AppCompatActivity() {
         val formattedDate = df.format(c.time)
 
         try {
-            val todayDate = df.parse(formattedDate)
-            val fDate = df.parse(getDate)
-            if (todayDate == fDate) {
-                if (sessionManager.isLoggedIn) {
-                    startActivity(Intent(this@SplashActivity, NextActivity::class.java))
-                    overridePendingTransition(R.anim.left_in, R.anim.right_out)
-                    finish()
+            if (sessionManager.isLoggedIn) {
+                val todayDate = df.parse(formattedDate)
+                val fDate = df.parse(getDate)
+                if (todayDate == fDate) {
+                    if (!sessionManager.isExit) {
+                        startActivity(Intent(this@SplashActivity, NextActivity::class.java))
+                        overridePendingTransition(R.anim.left_in, R.anim.right_out)
+                        finish()
+                    } else {
+                        val dialog = Dialog(this)
+                        dialog.setContentView(R.layout.custom_dialog3)
+                        val text_dialog = dialog.findViewById<View>(R.id.text_dialog) as TextView
+                        val btn_dialog = dialog.findViewById<TextView>(R.id.btn_dialog) as Button
+                        text_dialog.text = "You have already 'Attendance Out' from the APP. Please try again tomorrow."
+                        btn_dialog.text = "DISMISS"
+                        // if button is clicked, close the custom dialog
+                        btn_dialog.setOnClickListener {
+                            dialog.dismiss()
+                            finish()
+                        }
+                        dialog.show()
+                        dialog.setCancelable(false)
+                    }
                 } else {
-                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    sessionManager.setIsExit(false)
+                    startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
                     overridePendingTransition(R.anim.left_in, R.anim.right_out)
                     finish()
                 }
             } else {
-                sessionManager.setLogin(false, "", "", sessionManager.email!!, "", "0000-00-00")
-                //sessionManager.destroyLoginSession();
+                sessionManager.setIsExit(false)
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 overridePendingTransition(R.anim.left_in, R.anim.right_out)
                 finish()
             }
         } catch (e: ParseException) {
-            e.printStackTrace()
+            //e.printStackTrace()
+            sessionManager.setIsExit(false)
             startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             overridePendingTransition(R.anim.left_in, R.anim.right_out)
             finish()

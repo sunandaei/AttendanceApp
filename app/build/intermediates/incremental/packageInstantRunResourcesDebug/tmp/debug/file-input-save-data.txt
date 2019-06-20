@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Jun 18 14:07:40 IST 2019
+#Thu Jun 20 17:24:42 IST 2019
 0.baseType=DIRECTORY
 0.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\merged_assets\\debug\\out
 0.path=proxima_nova_light.ttf

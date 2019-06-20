@@ -102,7 +102,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/leave"
+            android:id="@+id/out"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="center"

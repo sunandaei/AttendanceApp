@@ -19,6 +19,9 @@ constructor(internal var _context: Context) {
     val isLoggedIn: Boolean
         get() = pref.getBoolean(KEY_IS_LOGGED_IN, false)
 
+    val isExit: Boolean
+        get() = pref.getBoolean(KEY_IS_EXIT, false)
+
     val name: String?
         get() = pref.getString(KEY_NAME, "name")
 
@@ -48,6 +51,11 @@ constructor(internal var _context: Context) {
         editor.commit()
     }
 
+    fun setIsExit(isExit : Boolean){
+        editor.putBoolean(KEY_IS_EXIT, isExit)
+        editor.commit()
+    }
+
     fun destroyLoginSession() {
         editor.putBoolean(KEY_IS_LOGGED_IN, false)
         editor.clear()
@@ -67,7 +75,7 @@ constructor(internal var _context: Context) {
         private val KEY_NAME = "name"
         private val KEY_EMAIL = "email"
         private val UTYPE = "type"
-        private val KEY_REF = "ref"
+        private val KEY_IS_EXIT = "is_exit"
         private val PREFS_DATE = "0000-00-00"
     }
 }

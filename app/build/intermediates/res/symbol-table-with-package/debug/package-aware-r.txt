@@ -1474,7 +1474,6 @@ id italic
 id item_touch_helper_previous_elevation
 id labeled
 id largeLabel
-id leave
 id left
 id light
 id lin_lay
@@ -1501,6 +1500,7 @@ id normal
 id notification_background
 id notification_main_column
 id notification_main_column_container
+id out
 id outline
 id packed
 id parallax
@@ -1599,7 +1599,7 @@ id tvAddress
 id tvLatitude
 id tvLongitude
 id txt_dia
-id txt_file_path
+id txt_exit
 id uniform
 id unlabeled
 id up

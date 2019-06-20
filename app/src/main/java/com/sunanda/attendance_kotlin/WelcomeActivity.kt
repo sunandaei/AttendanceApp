@@ -79,7 +79,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
         sessionManager = SessionManager(this)
 
         attendance = findViewById(R.id.attendance)
-        leave = findViewById(R.id.leave)
+        leave = findViewById(R.id.out)
         name = findViewById(R.id.name)
         email = findViewById(R.id.email)
 

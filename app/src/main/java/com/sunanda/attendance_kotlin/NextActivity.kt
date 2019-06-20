@@ -70,7 +70,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
     private var mCurrentLocation: Location? = null
     private var current_date = ""
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_next)
@@ -96,9 +96,26 @@ class NextActivity : AppCompatActivity(), LocationListener {
             overridePendingTransition(R.anim.left_in, R.anim.right_out)
         }
 
-        findViewById<View>(R.id.leave).setOnClickListener {
-            startActivity(Intent(this@NextActivity, LeaveApply::class.java))
-            overridePendingTransition(R.anim.left_in, R.anim.right_out)
+        findViewById<View>(R.id.out).setOnClickListener {
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+            dialog.setContentView(R.layout.exit_dialog)
+            dialog.setCancelable(false)
+
+            val btnCancel = dialog.findViewById<View>(R.id.btn_cancel) as Button
+            val btnOkay = dialog.findViewById<View>(R.id.btn_okay) as Button
+            val txt_exit = dialog.findViewById<View>(R.id.txt_exit) as TextView
+
+            txt_exit.text = "Do you want to Attendance Out?"
+
+            btnOkay.setOnClickListener {
+                dialog.dismiss()
+                sessionManager.setIsExit(true)
+                finish()
+            }
+            btnCancel.setOnClickListener { dialog.dismiss() }
+            dialog.show()
         }
 
         address.imeOptions = EditorInfo.IME_ACTION_NEXT
@@ -351,6 +368,9 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         val btnCancel = dialog.findViewById<View>(R.id.btn_cancel) as Button
         val btnOkay = dialog.findViewById<View>(R.id.btn_okay) as Button
+        val txt_exit = dialog.findViewById<View>(R.id.txt_exit) as TextView
+
+        txt_exit.text = "Do you want to Logout?"
 
         btnOkay.setOnClickListener {
             dialog.dismiss()
