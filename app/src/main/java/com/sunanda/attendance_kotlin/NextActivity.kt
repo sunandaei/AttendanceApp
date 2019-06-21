@@ -111,8 +111,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
             btnOkay.setOnClickListener {
                 dialog.dismiss()
-                sessionManager.setIsExit(true)
-                finish()
+                sendDataExit()
             }
             btnCancel.setOnClickListener { dialog.dismiss() }
             dialog.show()
@@ -241,7 +240,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         dialog_positive_btn.setOnClickListener {
             dialog.dismiss()
-            SendData()
+            sendData()
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -283,7 +282,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
         dialog.setCancelable(false)
     }
 
-    private fun SendData() {
+    private fun sendData() {
 
         val httpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -336,6 +335,75 @@ class NextActivity : AppCompatActivity(), LocationListener {
         })
     }
 
+    private fun sendDataExit() {
+
+        val httpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor { chain ->
+                    val ongoing = chain.request().newBuilder()
+                    chain.proceed(ongoing.build())
+                }
+                .build()
+
+        loadingDialog.showDialog()
+        val retrofit = Retrofit.Builder()
+                .baseUrl(Constants.ROOT_URL)
+                .client(httpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val services = retrofit.create(ApiInterface::class.java)
+
+        val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
+                tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1],
+                "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                "atten", current_date, current_date)
+
+        loginResponseCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                if (response.body() != null) {
+
+                    try {
+                        val jsonObject = JSONObject(response.body()!!.string())
+                        if (jsonObject.getInt("resCode") == 200) {
+                            //ShowDialog("Successfully Attendance Out. Thank You.")
+                            val dialog = Dialog(this@NextActivity)
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+                            dialog.setContentView(R.layout.custom_dialog)
+                            dialog.setCancelable(false)
+
+                            val restart = dialog.findViewById<View>(R.id.restart) as Button
+                            val titleTxt = dialog.findViewById<TextView>(R.id.title_txt)
+                            titleTxt.text = "Successfully Attendance Out. Thank You."
+
+                            restart.setOnClickListener {
+                                dialog.dismiss()
+                                sessionManager.setIsExit(true)
+                                finish()
+                            }
+                            dialog.show()
+                        } else {
+                            ErrorDialog(jsonObject.getString("message"))
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    ErrorDialog("Something went wrong!")
+                }
+                loadingDialog.hideDialog()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                loadingDialog.hideDialog()
+            }
+        })
+    }
 
     private fun SaveData() {
 
@@ -350,7 +418,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         dialog_positive_btn.setOnClickListener {
             dialog.dismiss()
-            SendData()
+            sendData()
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()
