@@ -19,6 +19,9 @@ constructor(internal var _context: Context) {
     val isLoggedIn: Boolean
         get() = pref.getBoolean(KEY_IS_LOGGED_IN, false)
 
+    val isFirstTIme: Boolean
+        get() = pref.getBoolean(KEY_IS_FIRST, false)
+
     val isExit: Boolean
         get() = pref.getBoolean(KEY_IS_EXIT, false)
 
@@ -51,8 +54,18 @@ constructor(internal var _context: Context) {
         editor.commit()
     }
 
+    fun SetDate(date: String) {
+        editor.putString(PREFS_DATE, date)
+        editor.commit()
+    }
+
     fun setIsExit(isExit : Boolean){
         editor.putBoolean(KEY_IS_EXIT, isExit)
+        editor.commit()
+    }
+
+    fun setIsFirst(isExit: Boolean) {
+        editor.putBoolean(KEY_IS_FIRST, isExit)
         editor.commit()
     }
 
@@ -75,7 +88,9 @@ constructor(internal var _context: Context) {
         private val KEY_NAME = "name"
         private val KEY_EMAIL = "email"
         private val UTYPE = "type"
+        //KEY_IS_FIRST
         private val KEY_IS_EXIT = "is_exit"
+        private val KEY_IS_FIRST = "is_first"
         private val PREFS_DATE = "0000-00-00"
     }
 }

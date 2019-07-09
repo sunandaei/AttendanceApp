@@ -17,12 +17,11 @@ class TaskAdapter(internal var context: Context, private val stringList: List<Ta
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
-        val address: TextView
+        val address: TextView = view.findViewById(R.id.address)
         internal val date: TextView
         val task: TextView
 
         init {
-            address = view.findViewById(R.id.address)
             task = view.findViewById(R.id.task)
             date = view.findViewById(R.id.date)
         }
@@ -64,8 +63,5 @@ class TaskAdapter(internal var context: Context, private val stringList: List<Ta
         return stringList.size
     }
 }
-
-
-
 
 

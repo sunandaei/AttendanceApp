@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:fontFamily="@font/proxima_nova_light"
-        android:text="Do you really want to exit?"
+        android:text="Do you want to exit?"
         android:textColor="@android:color/white"
         android:textSize="@dimen/dimen_20dp"
         android:textStyle="bold" />
