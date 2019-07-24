@@ -4,7 +4,17 @@
             "outputFile": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\3f0063cc2d780ccc49ea7a4a28fe6d29\\res\\values-land\\values-land.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\fbd8ff1f97e620cc858757c6e9046f18\\res\\values-land\\values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,125,196",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "120,191,259"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\dd60a4a2fd6664e4b9293681b020944f\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -20,16 +30,6 @@
                         "endLines": "8",
                         "endColumns": "10",
                         "endOffsets": "431"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\fc7e245f18fa0a748a27f8ebc629fc4e\\res\\values-land\\values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,125,196",
-                        "endColumns": "69,70,67",
-                        "endOffsets": "120,191,259"
                     }
                 }
             ]

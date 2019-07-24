@@ -270,7 +270,9 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
                 tvLongitude.text.toString(), "atten", current_date!!, current_date!!)
+
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
+
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
                 if (response.body() != null) {

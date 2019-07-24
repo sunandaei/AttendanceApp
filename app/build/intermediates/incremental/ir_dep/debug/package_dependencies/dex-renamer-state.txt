@@ -1,4 +1,4 @@
-#Tue Jul 09 15:28:59 IST 2019
+#Wed Jul 24 10:29:56 IST 2019
 base.0=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\10
 path.0=classes.dex
 renamed.0=classes.dex

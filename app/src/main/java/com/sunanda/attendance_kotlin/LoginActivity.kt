@@ -55,40 +55,6 @@ class LoginActivity : AppCompatActivity() {
             uname.setText(sessionManager.email)
             login_password.requestFocus()
         }
-
-        findViewById<View>(R.id.btnLogin).setOnClickListener {
-            if (network!!) {
-
-                val UNAME = uname.text.toString().trim { it <= ' ' }
-                val password = login_password.text.toString().trim { it <= ' ' }
-                if (UNAME.isEmpty()) {
-                    val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
-                    uname.startAnimation(shake)
-                    uname.error = "Please Enter Email ID"
-                    uname.requestFocus()
-                } else if (!isValidEmail(UNAME)) {
-                    val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
-                    uname.startAnimation(shake)
-                    uname.error = "Please Enter Valid Email Id"
-                    uname.requestFocus()
-                } else if (password.isEmpty()) {
-
-                    val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
-                    login_password.startAnimation(shake)
-                    login_password.error = "Please Enter Your Password"
-                    login_password.requestFocus()
-                } else {
-                    userLogin(UNAME, password)
-                }
-            } else {
-                startActivity(Intent(this@LoginActivity, NetworkConnection::class.java))
-                overridePendingTransition(R.anim.left_enter, R.anim.right_out)
-            }
-        }
-
-        //toast("Hello")
-        //val imageView : ImageView = findViewById(R.id.login_card)
-        //imageView.loadUrl("www.test.com\\image1.png")
     }
 
     fun Context.toast(text: String) {
@@ -212,6 +178,42 @@ class LoginActivity : AppCompatActivity() {
 
         btn_dialog.setOnClickListener { dialog.dismiss() }
         dialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        networkChangeReceiver = NetworkChangeReceiver(this)
+        network = networkChangeReceiver.isNetworkAvailable
+
+        findViewById<View>(R.id.btnLogin).setOnClickListener {
+            if (network!!) {
+
+                val UNAME = uname.text.toString().trim { it <= ' ' }
+                val password = login_password.text.toString().trim { it <= ' ' }
+                if (UNAME.isEmpty()) {
+                    val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
+                    uname.startAnimation(shake)
+                    uname.error = "Please Enter Email ID"
+                    uname.requestFocus()
+                } else if (!isValidEmail(UNAME)) {
+                    val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
+                    uname.startAnimation(shake)
+                    uname.error = "Please Enter Valid Email Id"
+                    uname.requestFocus()
+                } else if (password.isEmpty()) {
+
+                    val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
+                    login_password.startAnimation(shake)
+                    login_password.error = "Please Enter Your Password"
+                    login_password.requestFocus()
+                } else {
+                    userLogin(UNAME, password)
+                }
+            } else {
+                startActivity(Intent(this@LoginActivity, NetworkConnection::class.java))
+                overridePendingTransition(R.anim.left_enter, R.anim.right_out)
+            }
+        }
     }
 
     companion object {

@@ -6,11 +6,11 @@ import android.content.Intent
 import android.content.IntentSender
 import android.location.Location
 import android.location.LocationListener
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
 import android.util.Log
@@ -21,33 +21,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.LocationSettingsStatusCodes
-import com.google.android.gms.location.SettingsClient
-
-import org.json.JSONException
-import org.json.JSONObject
-
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
-
+import com.google.android.gms.location.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class NextActivity : AppCompatActivity(), LocationListener {
 
@@ -355,9 +344,14 @@ class NextActivity : AppCompatActivity(), LocationListener {
                 .build()
         val services = retrofit.create(ApiInterface::class.java)
 
+        val address: String = try {
+            tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
+        } catch (e: Exception) {
+            "Not found"
+        }
+
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
-                tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1],
-                "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                address, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
                 "atten", current_date, current_date)
 
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
