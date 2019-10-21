@@ -123,6 +123,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 loadingDialog!!.hideDialog()
+                ErrorDialog("Unable to get Network")
             }
         })
     }

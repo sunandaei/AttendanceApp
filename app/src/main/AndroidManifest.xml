@@ -17,6 +17,7 @@
         android:roundIcon="@drawable/image"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".AttendanceActivity"
@@ -52,6 +53,9 @@
         <activity
             android:name=".NetworkConnection"
             android:screenOrientation="portrait" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

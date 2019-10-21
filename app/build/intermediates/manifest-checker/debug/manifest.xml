@@ -25,7 +25,8 @@
         android:roundIcon="@drawable/image"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true" >
         <activity
             android:name="com.sunanda.attendance_kotlin.AttendanceActivity"
             android:screenOrientation="portrait" />
@@ -60,6 +61,11 @@
         <activity
             android:name="com.sunanda.attendance_kotlin.NetworkConnection"
             android:screenOrientation="portrait" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"
