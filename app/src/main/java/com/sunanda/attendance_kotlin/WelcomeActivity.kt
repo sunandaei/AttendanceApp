@@ -30,8 +30,15 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
 
     private fun requestAllPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this@WelcomeActivity,
-                        Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this@WelcomeActivity,
-                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                        Manifest.permission.ACCESS_FINE_LOCATION) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(this@WelcomeActivity,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(this@WelcomeActivity,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(this@WelcomeActivity,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(this@WelcomeActivity,
+                        Manifest.permission.CAMERA)) {
             val builder1 = AlertDialog.Builder(this@WelcomeActivity)
             builder1.setMessage("This app cannot work without the Location Permission")
             builder1.setCancelable(false)
@@ -53,7 +60,16 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
 
     private fun getPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(this@WelcomeActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this@WelcomeActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this@WelcomeActivity,
+                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this@WelcomeActivity,
+                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this@WelcomeActivity,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this@WelcomeActivity,
+                            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this@WelcomeActivity,
+                            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 val builder1 = AlertDialog.Builder(this@WelcomeActivity)
                 builder1.setMessage("This app can't work without Location Permissions")
                 builder1.setCancelable(false)
@@ -184,11 +200,9 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
     }
 
     companion object {
-        private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
-        private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000
-        private val REQUEST_CHECK_SETTINGS = 100
 
-        private val INITIAL_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        private val INITIAL_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
 
         private val INITIAL_REQUEST = 1514
     }

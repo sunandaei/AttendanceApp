@@ -1307,11 +1307,13 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable download
 drawable error
 drawable exit
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_bell
+drawable ic_camera
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_mtrl_chip_checked_black
@@ -1377,6 +1379,7 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id addEvent
 id address
 id adjust_height
 id adjust_width
@@ -1391,6 +1394,7 @@ id beginning
 id blocking
 id bottom
 id btnLogin
+id btnTakeImage
 id btn_cancel
 id btn_dialog
 id btn_no
@@ -1472,6 +1476,7 @@ id input_layout_uname
 id invisible
 id italic
 id item_touch_helper_previous_elevation
+id ivPicture
 id labeled
 id largeLabel
 id left
@@ -1663,6 +1668,7 @@ layout activity_leave_apply
 layout activity_login
 layout activity_network_connecction
 layout activity_network_connection
+layout activity_new_event
 layout activity_next
 layout activity_splash
 layout activity_task_list

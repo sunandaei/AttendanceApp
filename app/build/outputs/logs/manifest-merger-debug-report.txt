@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
 MERGED from [com.android.support:multidex:1.0.2] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\746f7e268e7178e2955bc2518c35c1d4\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:design:28.0.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3f0063cc2d780ccc49ea7a4a28fe6d29\AndroidManifest.xml:17:1-24:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\fc7e245f18fa0a748a27f8ebc629fc4e\AndroidManifest.xml:17:1-22:12
@@ -43,22 +43,22 @@ MERGED from [com.android.support:interpolator:28.0.0] C:\Users\ADMIN\.gradle\cac
 MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\b98e10cc3ddbe9684a2f0eaa37bcfd50\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\f2fab44cca3b8f5707152248e74cc42e\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\fec0482ca32b9ff43060364709807743\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
+INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
 	package
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:4:5-44
 		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
 		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-61:12
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:1-69:12
 		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:2:11-69
@@ -86,8 +86,20 @@ uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:11:5-78
 	android:name
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:11:22-75
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:12:5-81
+	android:name
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:12:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:13:5-80
+	android:name
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:13:22-77
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:14:5-65
+	android:name
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:14:22-62
 application
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:13:5-59:19
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:16:5-67:19
 MERGED from [com.android.support:design:28.0.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3f0063cc2d780ccc49ea7a4a28fe6d29\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:28.0.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3f0063cc2d780ccc49ea7a4a28fe6d29\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\c0ce231b26114c3f43212ab2f08d4a7c\AndroidManifest.xml:7:5-20
@@ -109,93 +121,101 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\ADMIN\.gra
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\7cba338716fb5badbd38dc09e8b34e9e\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:18:9-35
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:21:9-35
 	android:label
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:16:9-41
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:19:9-41
 	tools:ignore
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:21:9-48
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:24:9-48
 	android:roundIcon
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:17:9-44
-	android:icon
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:15:9-39
-	android:allowBackup
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:14:9-35
-	android:theme
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:19:9-40
-	android:usesCleartextTraffic
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:20:9-44
-activity#com.sunanda.attendance_kotlin.AttendanceActivity
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:22:9-24:52
-	android:screenOrientation
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:24:13-49
-	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:23:13-47
-activity#com.sunanda.attendance_kotlin.LeaveApply
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:25:9-28:57
+	android:icon
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:18:9-39
+	android:allowBackup
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:17:9-35
+	android:theme
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:22:9-40
+	android:usesCleartextTraffic
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:23:9-44
+activity#com.sunanda.attendance_kotlin.NewEventActivity
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:25:9-28:47
 	android:screenOrientation
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:27:13-49
 	android:windowSoftInputMode
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:28:13-54
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:26:13-54
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:26:13-39
-activity#com.sunanda.attendance_kotlin.TaskListActivity
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:28:13-45
+activity#com.sunanda.attendance_kotlin.AttendanceActivity
 ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:29:9-31:52
 	android:screenOrientation
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:31:13-49
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:30:13-45
-activity#com.sunanda.attendance_kotlin.NextActivity
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:30:13-47
+activity#com.sunanda.attendance_kotlin.LeaveApply
 ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:32:9-35:57
 	android:screenOrientation
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:34:13-49
 	android:windowSoftInputMode
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:35:13-54
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:33:13-41
-activity#com.sunanda.attendance_kotlin.SplashActivity
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:36:9-44:20
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:33:13-39
+activity#com.sunanda.attendance_kotlin.TaskListActivity
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:36:9-38:52
 	android:screenOrientation
 		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:38:13-49
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:37:13-43
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:37:13-45
+activity#com.sunanda.attendance_kotlin.NextActivity
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:39:9-42:57
+	android:screenOrientation
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:41:13-49
+	android:windowSoftInputMode
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:42:13-54
+	android:name
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:40:13-41
+activity#com.sunanda.attendance_kotlin.SplashActivity
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:43:9-51:20
+	android:screenOrientation
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:45:13-49
+	android:name
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:44:13-43
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:39:13-43:29
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:46:13-50:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:40:17-69
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:47:17-69
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:40:25-66
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:47:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:42:17-77
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:49:17-77
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:42:27-74
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:49:27-74
 activity#com.sunanda.attendance_kotlin.LoginActivity
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:45:9-48:57
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:52:9-55:57
 	android:screenOrientation
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:47:13-49
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:54:13-49
 	android:windowSoftInputMode
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:48:13-54
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:55:13-54
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:46:13-42
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:53:13-42
 activity#com.sunanda.attendance_kotlin.WelcomeActivity
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:49:9-52:57
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:56:9-59:57
 	android:screenOrientation
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:51:13-49
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:58:13-49
 	android:windowSoftInputMode
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:52:13-54
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:59:13-54
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:50:13-44
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:57:13-44
 activity#com.sunanda.attendance_kotlin.NetworkConnection
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:53:9-55:52
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:60:9-62:52
 	android:screenOrientation
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:55:13-49
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:62:13-49
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:54:13-46
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:61:13-46
 uses-library#org.apache.http.legacy
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:56:9-58:40
+ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:64:9-66:40
 	android:required
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:58:13-37
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:66:13-37
 	android:name
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:57:13-50
+		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml:65:13-50
 uses-sdk
 INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\src\main\AndroidManifest.xml

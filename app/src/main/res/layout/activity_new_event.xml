@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/toolbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="2dp"
+            android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/title_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_light"
+                android:textColor="@color/White"
+                android:textSize="18dp" />
+        </android.support.v7.widget.Toolbar>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/proxima_nova_light"
+                android:gravity="center"
+                android:padding="1dp"
+                android:text=""
+                android:textColor="@color/Black"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="@dimen/dimen_5dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvLatitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_sp_back"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:gravity="center"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Gray"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvLongitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_sp_back"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:gravity="center"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Gray"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_10"
+                    android:layout_weight="1
+"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="Enter Address"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/dimen_20dp" />
+
+                <TextView
+                    android:id="@+id/current_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_10"
+                    android:drawableStart="@drawable/currentlocation"
+                    android:drawableLeft="@drawable/currentlocation"
+                    android:drawablePadding="@dimen/dimen_5dp"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:gravity="end"
+                    android:padding="@dimen/dimen_5dp"
+                    android:text="Set Current Location"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/margin_15dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginRight="@dimen/padding_10"
+                android:layout_marginBottom="@dimen/padding_10"
+                android:background="@drawable/rectangle2"
+                android:fontFamily="@font/proxima_nova_light"
+                android:gravity="top"
+                android:imeOptions="actionNext"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="5"
+                android:minLines="3"
+                android:scrollHorizontally="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/margin_15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_10"
+                android:fontFamily="@font/proxima_nova_light"
+                android:text="Topic Discussed"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/dimen_20dp" />
+
+            <EditText
+                android:id="@+id/task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginRight="@dimen/padding_10"
+                android:layout_marginBottom="@dimen/padding_10"
+                android:background="@drawable/rectangle2"
+                android:fontFamily="@font/proxima_nova_light"
+                android:gravity="top"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="7"
+                android:minLines="5"
+                android:scrollHorizontally="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/margin_15dp" />
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@drawable/bg_sp_back"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="1dp">
+
+                <ImageView
+                    android:src="@drawable/download"
+                    android:id="@+id/ivPicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:padding="5dp" />
+
+                <Button
+                    android:id="@+id/btnTakeImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/MediumSeaGreen"
+                    android:drawableStart="@drawable/ic_camera"
+                    android:drawableLeft="@drawable/ic_camera"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:padding="10dp"
+                    android:text="CAPTURE PHOTO"
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/font_12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/padding_10"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dimen_5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_10"
+                    android:text="SUBMIT EVENT"
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/dimen_15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

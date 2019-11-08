@@ -24,6 +24,7 @@ import android.widget.Toast
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import kotlinx.android.synthetic.main.activity_next.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -161,6 +162,12 @@ class NextActivity : AppCompatActivity(), LocationListener {
         @SuppressLint("SimpleDateFormat")
         val formattedDate = df.format(c.time)
         current_date = formattedDate
+
+
+        addEvent.setOnClickListener {
+            startActivity(Intent(this@NextActivity, NewEventActivity::class.java))
+            overridePendingTransition(R.anim.left_in, R.anim.right_out)
+        }
     }
 
     @SuppressLint("MissingPermission")
