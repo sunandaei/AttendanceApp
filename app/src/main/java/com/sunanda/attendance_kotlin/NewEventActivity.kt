@@ -3,6 +3,7 @@ package com.sunanda.attendance_kotlin
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.graphics.*
@@ -26,15 +27,20 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_new_event.*
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.*
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class NewEventActivity : AppCompatActivity() {
 
@@ -48,7 +54,6 @@ class NewEventActivity : AppCompatActivity() {
     private var mCurrentPhotoPath: String = ""
     internal lateinit var ivPicture: ImageView
 
-    private val JPEG_FILE_PREFIX = "img_source_"
     private val JPEG_FILE_SUFFIX = ".png"
 
     internal lateinit var tvAddress: TextView
@@ -183,6 +188,10 @@ class NewEventActivity : AppCompatActivity() {
 
         dialog_positive_btn.setOnClickListener {
             dialog.dismiss()
+            if (TextUtils.isEmpty(mCurrentPhotoPath)) {
+                Toast.makeText(applicationContext, "Take Picture of the Event", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             uploadFileSource(mCurrentPhotoPath, mCurrentPhotoPath.substring(mCurrentPhotoPath.lastIndexOf('/') + 1))
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
@@ -196,36 +205,30 @@ class NewEventActivity : AppCompatActivity() {
 
         loadingDialog.showDialog()
 
+        deleteCache(this)
+
         // Map is used to multipart the file using okhttp3.RequestBody
-        val file = File(str2)
+        val file = File(mCurrentPhotoPath)
         // Parsing any Media type file
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         val fileToUpload = MultipartBody.Part.createFormData("image", file.name, requestBody)
-        val filename = RequestBody.create(MediaType.parse("text/plain"), str)
-
-        val key = RequestBody.create(MediaType.parse("text/plain"), "abc123456")
-        val user_id = RequestBody.create(MediaType.parse("text/plain"), sessionManager.keyId!!)
-        val address = RequestBody.create(MediaType.parse("text/plain"), address.text.toString().trim())
-        val task = RequestBody.create(MediaType.parse("text/plain"), task.text.toString().trim())
-        val lat = RequestBody.create(MediaType.parse("text/plain"), tvLatitude.text.toString().trim())
-        val lon = RequestBody.create(MediaType.parse("text/plain"), tvLongitude.text.toString())
-        val type = RequestBody.create(MediaType.parse("text/plain"), "Event")
-        val date_from = RequestBody.create(MediaType.parse("text/plain"), current_date)
-        val dateto = RequestBody.create(MediaType.parse("text/plain"), current_date)
+        val filename = RequestBody.create(MediaType.parse("text/plain"),
+                mCurrentPhotoPath.substring(mCurrentPhotoPath.lastIndexOf('/') + 1))
 
         val getResponse = AppConfig.retrofit.create(ApiConfig::class.java)
-        val call = getResponse.uploadFile(fileToUpload, filename, key, user_id , address, task, lat,
-                lon, type, date_from, dateto)
+        val call = getResponse.uploadFile(fileToUpload, filename)
         call.enqueue(object : Callback<ServerResponse> {
-            override fun onResponse(call: Call<ServerResponse>, response: retrofit2.Response<ServerResponse>) {
+            override fun onResponse(call: Call<ServerResponse>, response: Response<ServerResponse>) {
                 val serverResponse = response.body()
+                Log.d("RESPONSE", serverResponse.toString())
                 if (serverResponse != null) {
                     if (serverResponse.success.equals("200")) {
-                        ShowDialog(serverResponse.message!!)
+                        //ShowDialog(serverResponse.message!!)
+                        sendData(str2)
                         //Toast.makeText(applicationContext, serverResponse.message, Toast.LENGTH_SHORT).show();
                     } else {
                         ErrorDialog(serverResponse.message!!)
-                        //Toast.makeText(applicationContext, serverResponse.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, serverResponse.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     assert(false)
@@ -248,8 +251,61 @@ class NewEventActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
-                //Log.v("Response", "Error")
+                Log.v("Response", "Error" + t.message)
                 ErrorDialog("Unable to send data!")
+                loadingDialog.hideDialog()
+            }
+        })
+    }
+
+    private fun sendData(finename: String) {
+
+        val httpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor { chain ->
+                    val ongoing = chain.request().newBuilder()
+                    chain.proceed(ongoing.build())
+                }
+                .build()
+
+        loadingDialog.showDialog()
+        val retrofit = Retrofit.Builder()
+                .baseUrl(Constants.ROOT_URL)
+                .client(httpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val services = retrofit.create(ApiInterface::class.java)
+
+        val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
+                address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
+                tvLongitude.text.toString(), "Event", current_date, current_date, finename)
+        loginResponseCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                if (response.body() != null) {
+
+                    try {
+                        val jsonObject = JSONObject(response.body()!!.string())
+                        if (jsonObject.getInt("resCode") == 200) {
+                            ShowDialog(jsonObject.getString("message"))
+                        } else {
+                            ErrorDialog(jsonObject.getString("message"))
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+
+                } else {
+                    ErrorDialog("Something went wrong!")
+                }
+                loadingDialog.hideDialog()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 loadingDialog.hideDialog()
             }
         })
@@ -265,13 +321,15 @@ class NewEventActivity : AppCompatActivity() {
 
         val restart = dialog.findViewById<View>(R.id.restart) as Button
         val title_txt = dialog.findViewById<TextView>(R.id.title_txt)
-        title_txt.text = msg
+        title_txt.text = "Event Submitted Successfully"
 
         restart.setOnClickListener {
             dialog.dismiss()
             address.setText("")
             task.setText("")
             address.requestFocus()
+            mCurrentPhotoPath = ""
+            setPic()
         }
         dialog.show()
     }
@@ -308,7 +366,7 @@ class NewEventActivity : AppCompatActivity() {
         var imageF: File? = null
         try {
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            val imageFileName = JPEG_FILE_PREFIX + timeStamp + "_"
+            val imageFileName = sessionManager.keyId + "_" + timeStamp
             val albumF = getAlbumDir()
             imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF)
         } catch (e: Exception) {
@@ -341,6 +399,33 @@ class NewEventActivity : AppCompatActivity() {
 
     private fun getAlbumName(): String {
         return getString(R.string.app_name)
+    }
+
+    fun deleteCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            deleteDir(dir)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            return dir.delete()
+        } else return if (dir != null && dir.isFile) {
+            dir.delete()
+        } else {
+            false
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

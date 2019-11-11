@@ -9,8 +9,8 @@ import retrofit2.http.POST
 
 interface ApiInterface {
 
-    @get:GET("https://api.androidhive.info/json/movies.json")
-    val lists: Call<List<TaskPojo>>
+   /* @get:GET("https://api.androidhive.info/json/movies.json")
+    val lists: Call<List<TaskPojo>>*/
 
     //login
     @FormUrlEncoded
@@ -22,7 +22,8 @@ interface ApiInterface {
     fun insert_data(@Field("key") key: String, @Field("user_id") user_id: String,
                     @Field("address") address: String, @Field("task") task: String,
                     @Field("lat") lat: String, @Field("long") lon: String, @Field("type") type: String,
-                    @Field("date_from") date_from: String, @Field("date_to") date_to: String): Call<ResponseBody>
+                    @Field("date_from") date_from: String, @Field("date_to") date_to: String,
+                    @Field("imageName") imageName: String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("api-attendence-list")

@@ -300,7 +300,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
-                tvLongitude.text.toString(), "atten", current_date, current_date)
+                tvLongitude.text.toString(), "Task", current_date, current_date, "")
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
@@ -359,7 +359,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 address, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
-                "atten", current_date, current_date)
+                "Task", current_date, current_date, "")
 
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
