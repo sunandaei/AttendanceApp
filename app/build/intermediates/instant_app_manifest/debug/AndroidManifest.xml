@@ -32,25 +32,25 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name="com.sunanda.attendance_kotlin.NewEventActivity"
+            android:name="com.sunanda.attendance_kotlin.activity.NewEventActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.AttendanceActivity"
+            android:name="com.sunanda.attendance_kotlin.activity.AttendanceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.LeaveApply"
+            android:name="com.sunanda.attendance_kotlin.activity.LeaveApply"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.TaskListActivity"
+            android:name="com.sunanda.attendance_kotlin.activity.TaskListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.NextActivity"
+            android:name="com.sunanda.attendance_kotlin.activity.NextActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.SplashActivity"
+            android:name="com.sunanda.attendance_kotlin.activity.SplashActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,15 +59,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sunanda.attendance_kotlin.LoginActivity"
+            android:name="com.sunanda.attendance_kotlin.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.WelcomeActivity"
+            android:name="com.sunanda.attendance_kotlin.activity.WelcomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.sunanda.attendance_kotlin.NetworkConnection"
+            android:name="com.sunanda.attendance_kotlin.activity.NetworkConnection"
             android:screenOrientation="portrait" />
 
         <uses-library
