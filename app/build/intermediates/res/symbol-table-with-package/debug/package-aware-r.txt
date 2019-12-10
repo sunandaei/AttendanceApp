@@ -1312,6 +1312,7 @@ drawable error
 drawable exit
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable handgesture
 drawable ic_bell
 drawable ic_camera
 drawable ic_launcher_background
@@ -1349,6 +1350,7 @@ drawable sunanda_logo
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 drawable tower
+drawable uploading
 drawable warning
 font proxima_nova_light
 id ALT
@@ -1380,12 +1382,14 @@ id actions
 id activity_chooser_view_content
 id add
 id addEvent
+id addTask
 id address
 id adjust_height
 id adjust_width
 id alertTitle
 id all
 id always
+id applyLeave
 id async
 id attendance
 id auto

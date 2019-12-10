@@ -13,14 +13,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.sunanda.attendance_kotlin.Interface.ApiInterface
-import com.sunanda.attendance_kotlin.NewTaskAdapter
+import com.sunanda.attendance_kotlin.adapter.NewTaskAdapter
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.adapter.TaskAdapter
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.Constants
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.SessionManager
-import com.sunanda.attendance_kotlin.model.NewTaskPojo
 import com.sunanda.attendance_kotlin.model.TaskPojo
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody

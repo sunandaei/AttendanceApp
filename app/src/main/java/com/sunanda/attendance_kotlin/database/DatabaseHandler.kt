@@ -42,10 +42,10 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         }
     }
 
-    fun deleteAllData(id: String) {
+    fun deleteData(id: String) {
         val db = this.writableDatabase
         try {
-            val strAQL = "DELETE from attendance where occ_uni_id_raw='$id'"
+            val strAQL = "DELETE from attendance where _id='$id'"
             db.execSQL(strAQL)
         } catch (e: Exception) {
             Log.e(TAG, " deleteTest:- ", e)
@@ -87,11 +87,12 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         val db = this.readableDatabase
         val arrayList = ArrayList<NewTaskPojo>()
         try {
-            val rsql = "SELECT * FROM attendance"
+            val rsql = "SELECT * FROM attendance ORDER BY _id DESC"
             val cursor = db.rawQuery(rsql, null)
             if (cursor.moveToFirst()) {
                 do {
                     val data = NewTaskPojo()
+                    val _id = cursor.getInt(cursor.getColumnIndex("_id"))
                     val user_id = cursor.getString(cursor.getColumnIndex("user_id"))
                     val address = cursor.getString(cursor.getColumnIndex("address"))
                     val task = cursor.getString(cursor.getColumnIndex("task"))
@@ -103,6 +104,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                     val imageName = cursor.getString(cursor.getColumnIndex("imageName"))
                     val time = cursor.getString(cursor.getColumnIndex("time"))
 
+                    data._id = _id.toString()
                     data.user_id = user_id
                     data.address = address
                     data.task = task

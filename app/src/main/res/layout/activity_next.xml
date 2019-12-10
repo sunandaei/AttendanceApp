@@ -39,7 +39,7 @@
                 android:layout_toRightOf="@+id/img"
                 android:fontFamily="@font/proxima_nova_light"
                 android:gravity="center"
-                android:text="bfbfd"
+                android:text="TEST"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
@@ -56,7 +56,7 @@
                 android:layout_toRightOf="@+id/img"
                 android:fontFamily="@font/proxima_nova_light"
                 android:gravity="center"
-                android:text="sdfgf"
+                android:text="test"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -148,9 +148,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/padding_10"
-                android:drawableStart="@drawable/currentlocation"
-                android:drawableLeft="@drawable/currentlocation"
-                android:drawablePadding="@dimen/dimen_5dp"
+                android:drawableStart="@drawable/handgesture"
+                android:drawableLeft="@drawable/handgesture"
                 android:fontFamily="@font/proxima_nova_light"
                 android:gravity="end"
                 android:padding="@dimen/dimen_5dp"
@@ -215,7 +214,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/add"
+                android:id="@+id/addTask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

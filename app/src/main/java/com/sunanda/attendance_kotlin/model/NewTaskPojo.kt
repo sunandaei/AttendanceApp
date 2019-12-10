@@ -4,6 +4,7 @@ import java.io.Serializable
 
 class NewTaskPojo : Serializable {
 
+    var _id: String? = null
     var user_id: String? = null
     var address: String? = null
     var task: String? = null

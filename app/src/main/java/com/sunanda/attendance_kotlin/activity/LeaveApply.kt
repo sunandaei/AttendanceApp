@@ -5,8 +5,8 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.InputType
 import android.text.TextUtils
@@ -14,33 +14,25 @@ import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import com.sunanda.attendance_kotlin.Interface.ApiInterface
-import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.R
-import com.sunanda.attendance_kotlin.helper.SessionManager
 import com.sunanda.attendance_kotlin.helper.Constants
-
-import org.json.JSONException
-import org.json.JSONObject
-
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.concurrent.TimeUnit
-
+import com.sunanda.attendance_kotlin.helper.LoadingDialog
+import com.sunanda.attendance_kotlin.helper.SessionManager
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class LeaveApply : AppCompatActivity() {
 
@@ -134,8 +126,12 @@ class LeaveApply : AppCompatActivity() {
             //datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
             datePickerDialog.datePicker.minDate = Date().time
         }
+    }
 
-        findViewById<View>(R.id.out).setOnClickListener {
+    override fun onResume() {
+        super.onResume()
+        network = networkChangeReceiver.isNetworkAvailable
+        findViewById<View>(R.id.applyLeave).setOnClickListener {
             if (TextUtils.isEmpty(value)) {
                 ErrorDialog("Please select your option")
             } else if (value.equals("single day", ignoreCase = true)) {

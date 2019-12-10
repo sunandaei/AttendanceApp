@@ -93,8 +93,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/padding_10"
-                    android:layout_weight="1
-"
+                    android:layout_weight="1"
                     android:fontFamily="@font/proxima_nova_light"
                     android:text="Enter Address"
                     android:textColor="@color/colorPrimaryDark"
@@ -105,9 +104,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/padding_10"
-                    android:drawableStart="@drawable/currentlocation"
-                    android:drawableLeft="@drawable/currentlocation"
-                    android:drawablePadding="@dimen/dimen_5dp"
+                    android:drawableStart="@drawable/handgesture"
+                    android:drawableLeft="@drawable/handgesture"
                     android:fontFamily="@font/proxima_nova_light"
                     android:gravity="end"
                     android:padding="@dimen/dimen_5dp"
@@ -174,11 +172,11 @@
                 android:padding="1dp">
 
                 <ImageView
-                    android:src="@drawable/download"
                     android:id="@+id/ivPicture"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:src="@drawable/download" />
 
                 <Button
                     android:id="@+id/btnTakeImage"
@@ -204,7 +202,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/add"
+                    android:id="@+id/addTask"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

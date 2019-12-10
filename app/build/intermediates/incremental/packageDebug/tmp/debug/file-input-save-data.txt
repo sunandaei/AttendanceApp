@@ -1,24 +1,24 @@
 #Internal package file, do not edit.
-#Fri Nov 08 17:05:40 IST 2019
+#Tue Dec 10 16:32:45 IST 2019
 4.path=classes.dex
-8.set=ASSET
+8.set=DEX
 6.path=classes.dex
 0.baseType=DIRECTORY
 10.path=classes.dex
 5.baseType=DIRECTORY
 1.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
-8.path=proxima_nova_light.ttf
+8.path=classes.dex
 3.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
 4.set=DEX
 5.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19
-7.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\20
+7.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\merged_assets\\debug\\out
 11.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
 9.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\11
 1.baseType=DIRECTORY
 11.set=DEX
 0.set=DEX
 6.baseType=DIRECTORY
-7.set=DEX
+7.set=ASSET
 3.set=DEX
 2.baseType=DIRECTORY
 10.baseType=DIRECTORY
@@ -28,7 +28,7 @@
 10.set=DEX
 5.path=classes.dex
 0.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
-7.path=classes.dex
+7.path=proxima_nova_light.ttf
 11.path=classes.dex
 9.path=classes.dex
 6.set=DEX
@@ -38,7 +38,7 @@
 3.baseType=DIRECTORY
 6.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\18
 10.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\21
-8.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\merged_assets\\debug\\out
+8.base=C\:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\20
 2.set=DEX
 8.baseType=DIRECTORY
 9.set=DEX

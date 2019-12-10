@@ -98,10 +98,10 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
             if (TextUtils.isEmpty(address.text.toString())) {
                 address.error = "Please Enter Your Address"
                 address.isFocusable = true
-            } else if (TextUtils.isEmpty(task.text.toString())) {
+            } /*else if (TextUtils.isEmpty(task.text.toString())) {
                 task.error = "Please Enter Task"
                 task.isFocusable = true
-            } else {
+            }*/ else {
                 ShowSubmitDialog()
             }
         }
@@ -226,9 +226,10 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
             dialog.dismiss()
             //SendData()
             if (databaseHandler.insertData(sessionManager.keyId!!,
-                            address.text.toString(), task.text.toString(), tvLatitude.text.toString(), tvLongitude.text.toString(),
+                            address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
                             "Attendance", current_date!!, current_date!!, "", current_date_time!!)) {
                 ShowDialog("Data Saved Successfully")
+                sessionManager.isFirstTIme = true
             } else {
                 ErrorDialog("Unable To Save Data!")
             }

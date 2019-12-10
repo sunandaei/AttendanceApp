@@ -1,41 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="arm64-v8a,armeabi-v7a,armeabi"
-    api-level="24"
-    build-mode="HOT_WARM"
-    density="xhdpi"
+    abi="armeabi-v7a,armeabi"
+    api-level="28"
+    build-mode="FULL"
+    density="280dpi"
     format="10"
     plugin-version="3.4.1"
-    timestamp="1575890094923"
+    timestamp="1575975721317"
     token="6796400707462551614"
-    verifier="COMPATIBLE" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
         duration="0" />
     <task
         name="instant-run-dex"
-        duration="86" />
+        duration="0" />
     <task
         name="instant-run-transform"
-        duration="82" />
+        duration="2555" />
     <task
         name="verifier"
-        duration="27" />
+        duration="5342" />
 
     <artifact
-        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\reload-dex\debug\classes.dex"
-        type="RELOAD_DEX" />
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+        type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1575889662561"
+        timestamp="1575975721317"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
@@ -44,19 +80,22 @@
             location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
@@ -67,22 +106,6 @@
         <artifact
             location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
             type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="HOT_WARM"
-        timestamp="1575889982704"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\builds\debug\1575889982704\classes.dex"
-            type="RELOAD_DEX" />
-    </build>
-    <build
-        build-mode="HOT_WARM"
-        timestamp="1575890094923"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="C:\Users\ADMIN\AndroidStudioProjects\AttendanceApplicationKotlin\app\build\intermediates\reload-dex\debug\classes.dex"
-            type="RELOAD_DEX" />
     </build>
 
 </instant-run>

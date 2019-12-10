@@ -114,4 +114,19 @@
 
     </LinearLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_margin="@dimen/dimen_15sp"
+        android:src="@drawable/uploading"
+        android:tint="@color/White"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp" />
+
 </RelativeLayout>

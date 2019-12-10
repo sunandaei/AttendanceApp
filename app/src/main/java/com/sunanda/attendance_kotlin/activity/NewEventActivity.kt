@@ -32,6 +32,7 @@ import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.*
 import com.sunanda.attendance_kotlin.model.ServerResponse
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_new_event.*
 import okhttp3.*
 import org.json.JSONException
@@ -179,7 +180,7 @@ class NewEventActivity : AppCompatActivity() {
         val formattedDate2 = df2.format(c.time)
         current_date_time = formattedDate2
 
-        findViewById<View>(R.id.add).setOnClickListener {
+        findViewById<View>(R.id.addTask).setOnClickListener {
             if (TextUtils.isEmpty(address.text.toString())) {
                 address.error = "Please Enter Your Address"
                 address.isFocusable = true
@@ -354,6 +355,7 @@ class NewEventActivity : AppCompatActivity() {
             address.requestFocus()
             mCurrentPhotoPath = ""
             setPic()
+            ivPicture.setImageDrawable(getResources().getDrawable(R.drawable.download));
         }
         dialog.show()
     }
@@ -432,7 +434,6 @@ class NewEventActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     fun deleteDir(dir: File?): Boolean {

@@ -111,29 +111,36 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
             txt_exit.text = "Do you want to Attendance Out?"
 
+            val nwaddress: String = try {
+                tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
+            } catch (e: Exception) {
+                "Address Not found"
+            }
+
             btnOkay.setOnClickListener {
                 dialog.dismiss()
                 //sendDataExit()
                 if (databaseHandler.insertData(sessionManager.keyId!!,
-                                address.text.toString(), "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
-                                "Task", current_date, current_date, "", current_date_time)) {
+                                nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                                "Attendance", current_date, current_date, "", current_date_time)) {
                     //ShowDialog("Successfully Attendance Out. Thank You.")
-                    val dialog = Dialog(this@NextActivity)
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    val mydialog = Dialog(this@NextActivity)
+                    mydialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-                    dialog.setContentView(R.layout.custom_dialog)
-                    dialog.setCancelable(false)
+                    mydialog.setContentView(R.layout.custom_dialog)
+                    mydialog.setCancelable(false)
 
-                    val restart = dialog.findViewById<View>(R.id.restart) as Button
-                    val titleTxt = dialog.findViewById<TextView>(R.id.title_txt)
+                    val restart = mydialog.findViewById<View>(R.id.restart) as Button
+                    val titleTxt = mydialog.findViewById<TextView>(R.id.title_txt)
                     titleTxt.text = "Successfully Attendance Out. Thank You."
 
                     restart.setOnClickListener {
-                        dialog.dismiss()
+                        mydialog.dismiss()
                         sessionManager.setIsExit(true)
+                        sessionManager.isFirstTIme = false
                         finish()
                     }
-                    dialog.show()
+                    mydialog.show()
                 } else {
                     ErrorDialog("Please Try Again!")
                 }
@@ -147,7 +154,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
         task.imeOptions = EditorInfo.IME_ACTION_DONE
         task.setRawInputType(InputType.TYPE_CLASS_TEXT)
 
-        findViewById<View>(R.id.add).setOnClickListener {
+        findViewById<View>(R.id.addTask).setOnClickListener {
             if (TextUtils.isEmpty(address.text.toString())) {
                 address.error = "Please Enter Your Address"
                 address.isFocusable = true

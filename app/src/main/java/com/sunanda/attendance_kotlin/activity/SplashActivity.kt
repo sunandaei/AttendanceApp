@@ -88,9 +88,16 @@ class SplashActivity : AppCompatActivity() {
                             dialog.show()
                             dialog.setCancelable(false)
                         }*/
-                    startActivity(Intent(this@SplashActivity, NextActivity::class.java))
-                    overridePendingTransition(R.anim.left_in, R.anim.right_out)
-                    finish()
+
+                    if (sessionManager.isFirstTIme) {
+                        startActivity(Intent(this@SplashActivity, NextActivity::class.java))
+                        overridePendingTransition(R.anim.left_in, R.anim.right_out)
+                        finish()
+                    } else {
+                        startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
+                        overridePendingTransition(R.anim.left_in, R.anim.right_out)
+                        finish()
+                    }
                 }
                 /*if (sessionManager.isFirstTIme) {
                     startActivity(Intent(this@SplashActivity, NextActivity::class.java))

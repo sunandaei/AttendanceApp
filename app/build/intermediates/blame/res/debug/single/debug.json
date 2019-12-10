@@ -1364,6 +1364,10 @@
         "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\3f0063cc2d780ccc49ea7a4a28fe6d29\\res\\drawable-v21\\avd_show_password.xml"
     },
     {
+        "merged": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\res\\merged\\debug\\drawable_uploading.png.flat",
+        "source": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\src\\main\\res\\drawable\\uploading.png"
+    },
+    {
         "merged": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
         "source": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
     },
@@ -1542,6 +1546,10 @@
     {
         "merged": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13_mtrl_layout_snackbar.xml.flat",
         "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\3f0063cc2d780ccc49ea7a4a28fe6d29\\res\\layout-sw600dp-v13\\mtrl_layout_snackbar.xml"
+    },
+    {
+        "merged": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\res\\merged\\debug\\drawable_handgesture.png.flat",
+        "source": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\src\\main\\res\\drawable\\handgesture.png"
     },
     {
         "merged": "C:\\Users\\ADMIN\\AndroidStudioProjects\\AttendanceApplicationKotlin\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_retry.png.flat",
