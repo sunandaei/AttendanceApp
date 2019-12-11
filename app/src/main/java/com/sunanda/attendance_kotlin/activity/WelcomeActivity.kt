@@ -126,7 +126,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
 
         networkChangeReceiver = NetworkChangeReceiver(this)
 
-        attendance = findViewById(R.id.attendance)
+        attendance = findViewById<Button>(R.id.attendance)
         leave = findViewById(R.id.out)
         name = findViewById(R.id.name)
         email = findViewById(R.id.email)
@@ -175,6 +175,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
 
     override fun onResume() {
         super.onResume()
+        networkChangeReceiver = NetworkChangeReceiver(this)
         network = networkChangeReceiver.isNetworkAvailable
         findViewById<View>(R.id.fab).setOnClickListener {
             if (network!!) {
