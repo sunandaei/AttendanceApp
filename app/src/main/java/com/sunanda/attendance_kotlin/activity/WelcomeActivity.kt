@@ -1,16 +1,16 @@
 package com.sunanda.attendance_kotlin.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.location.Location
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
+import android.os.*
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -21,7 +21,12 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.location.LocationListener
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.sunanda.attendance_kotlin.Interface.ApiConfig
 import com.sunanda.attendance_kotlin.Interface.ApiInterface
 import com.sunanda.attendance_kotlin.R
@@ -37,13 +42,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
-class WelcomeActivity : AppCompatActivity(), LocationListener {
+class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
-    private var mCurrentLocation: Location? = null
     internal lateinit var attendance: Button
     internal lateinit var leave: Button
     internal lateinit var name: TextView
@@ -52,6 +59,15 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
     lateinit var loadingDialog: LoadingDialog
     lateinit var taskPojoArrayListDB: ArrayList<NewTaskPojo>
     lateinit var databaseHandler: DatabaseHandler
+
+    lateinit var mGoogleApiClient: GoogleApiClient
+
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var mSettingsClient: SettingsClient? = null
+    private var mLocationSettingsRequest: LocationSettingsRequest? = null
+    private var mLocationCallback: LocationCallback? = null
+    private var mLocationRequest: LocationRequest? = null
+    private var mCurrentLocation: Location? = null
 
     internal lateinit var networkChangeReceiver: NetworkChangeReceiver
     internal var network: Boolean? = false
@@ -121,10 +137,40 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
 
     private fun initValue() {
 
+        mGoogleApiClient = GoogleApiClient.Builder(this@WelcomeActivity)
+                .addConnectionCallbacks(this@WelcomeActivity)
+                .addOnConnectionFailedListener(this@WelcomeActivity)
+                .addApi(LocationServices.API).build()
+        mGoogleApiClient.connect()
+
         sessionManager = SessionManager(this)
         loadingDialog = LoadingDialog(this)
 
         networkChangeReceiver = NetworkChangeReceiver(this)
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mSettingsClient = LocationServices.getSettingsClient(this)
+
+        mLocationRequest = LocationRequest()
+        mLocationRequest!!.interval = UPDATE_INTERVAL_IN_MILLISECONDS
+        mLocationRequest!!.fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
+        mLocationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        mLocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                super.onLocationResult(locationResult)
+                // location is received
+                mCurrentLocation = locationResult!!.lastLocation
+                updateLocationUI()
+            }
+        }
+
+        val builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(mLocationRequest!!)
+        mLocationSettingsRequest = builder.build()
+
+        startLocationUpdates()
+
 
         attendance = findViewById<Button>(R.id.attendance)
         leave = findViewById(R.id.out)
@@ -142,20 +188,43 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
 
         attendance.setOnClickListener {
 
-            AlertDialog.Builder(this)
-                    .setTitle("Google Location Warning")
-                    .setMessage("Before proceed please make sure your 'Location' setting is turned on.")
-                    .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
-                        dialog.dismiss()
-                        startActivity(Intent(this@WelcomeActivity, AttendanceActivity::class.java))
-                        overridePendingTransition(R.anim.left_in, R.anim.right_out)
-                        finish()
-                    })
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    //.setNegativeButton(android.R.string.no, null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setCancelable(false)
-                    .show()
+            if (mCurrentLocation == null) {
+                //Toast.makeText(SampleCollection_Activity.this, "Please wait for Location...", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder(this@WelcomeActivity)
+                        .setTitle("Google Location Warning")
+                        .setMessage("Please allow Location Permission")
+                        .setPositiveButton(android.R.string.yes) { dialog, which ->
+
+                            getPermission()
+                            turnGPSOn1(this@WelcomeActivity, mGoogleApiClient)
+                            checkPlayServices()
+                            createLocationRequest()
+                            startLocationUpdates()
+                        }
+                        //.setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(false)
+                        .show()
+            } else {
+                startActivity(Intent(this@WelcomeActivity, AttendanceActivity::class.java))
+                overridePendingTransition(R.anim.left_in, R.anim.right_out)
+                finishAffinity()
+            }
+
+            /* AlertDialog.Builder(this)
+                     .setTitle("Google Location Warning")
+                     .setMessage("Before proceed please make sure your 'Location' setting is turned on.")
+                     .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                         dialog.dismiss()
+                         startActivity(Intent(this@WelcomeActivity, AttendanceActivity::class.java))
+                         overridePendingTransition(R.anim.left_in, R.anim.right_out)
+                         finish()
+                     })
+                     // A null listener allows the button to dismiss the dialog and take no further action.
+                     //.setNegativeButton(android.R.string.no, null)
+                     .setIcon(android.R.drawable.ic_dialog_alert)
+                     .setCancelable(false)
+                     .show()*/
         }
     }
 
@@ -398,6 +467,12 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
         })
     }
 
+    fun getFileDataFromDrawable(bitmap: Bitmap?): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap!!.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
     private fun deleteAllImage() {
         val mAlbumStorageDirFactory: AlbumStorageDirFactory = fetchAlbumDirectory()
 
@@ -480,7 +555,6 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
         dialog.setCancelable(false)
     }
 
-
     /*private fun ShowDialog(msg: String) {
 
         val dialog = Dialog(this)
@@ -544,6 +618,21 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    override fun onConnected(bundle: Bundle?) {
+        if (ActivityCompat.checkSelfPermission(this@WelcomeActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this@WelcomeActivity,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this@WelcomeActivity)
+    }
+
+    override fun onConnectionSuspended(i: Int) {
+
+    }
+
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {}
+
     private inner class GeocoderHandler : Handler() {
         override fun handleMessage(message: Message) {
             val locationAddress: String?
@@ -557,7 +646,123 @@ class WelcomeActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    @SuppressLint("MissingPermission")
+    private fun startLocationUpdates() {
+        mSettingsClient!!
+                .checkLocationSettings(mLocationSettingsRequest)
+                .addOnSuccessListener(this) {
+                    Log.i("", "All location settings are satisfied.")
+
+                    //Toast.makeText(getApplicationContext(), "Started location updates!", Toast.LENGTH_SHORT).show();
+
+                    mFusedLocationClient!!.requestLocationUpdates(mLocationRequest,
+                            mLocationCallback!!, Looper.myLooper())
+
+                    updateLocationUI()
+                }
+                .addOnFailureListener(this) { e ->
+                    val statusCode = (e as ApiException).statusCode
+                    when (statusCode) {
+                        LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                            Log.i("", "Location settings are not satisfied. Attempting to upgrade " + "location settings ")
+                            try {
+                                // Show the dialog by calling startResolutionForResult(), and check the
+                                // result in onActivityResult().
+                                val rae = e as ResolvableApiException
+                                rae.startResolutionForResult(this@WelcomeActivity, REQUEST_CHECK_SETTINGS)
+                            } catch (sie: IntentSender.SendIntentException) {
+                                Log.i("", "PendingIntent unable to execute request.")
+                            }
+
+                        }
+                        LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+                            val errorMessage = "Location settings are inadequate, and cannot be " + "fixed here. Fix in Settings."
+                            Log.e("", errorMessage)
+
+                            Toast.makeText(this@WelcomeActivity, errorMessage, Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    updateLocationUI()
+                }
+    }
+
+    private fun updateLocationUI() {
+        if (mCurrentLocation != null) {
+
+            val latitude = mCurrentLocation!!.latitude
+            val longitude = mCurrentLocation!!.longitude
+            val locationAddress = LocationAddress
+            locationAddress.getAddressFromLocation(latitude, longitude, applicationContext, GeocoderHandler())
+        }
+    }
+
+    fun turnGPSOn1(activity: Activity, googleApiClient: GoogleApiClient) {
+
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = (30 * 1000).toLong()
+        locationRequest.fastestInterval = (5 * 1000).toLong()
+        val builder = LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
+        builder.setAlwaysShow(true) //this is the key ingredient
+
+        val result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
+        result.setResultCallback { result ->
+            val status = result.status
+            when (status.statusCode) {
+                LocationSettingsStatusCodes.SUCCESS -> {
+                }
+                LocationSettingsStatusCodes.RESOLUTION_REQUIRED ->
+                    // Location settings are not satisfied. But could be fixed by showing the user
+                    // a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        status.startResolutionForResult(
+                                activity, REQUEST_LOCATION_LIB)
+                    } catch (e: IntentSender.SendIntentException) {
+                        // Ignore the error.
+                    }
+
+                LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+                }
+            }// All location settings are satisfied. The client can initialize location
+            // requests here.
+            // Location settings are not satisfied. However, we have no way to fix the
+            // settings so we won't show the dialog.
+        }
+    }
+
+    private fun checkPlayServices(): Boolean {
+        val googleAPI = GoogleApiAvailability.getInstance()
+        val result = googleAPI.isGooglePlayServicesAvailable(this@WelcomeActivity)
+        if (result != ConnectionResult.SUCCESS) {
+            if (googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this@WelcomeActivity, result,
+                        101).show()
+            }
+
+            return false
+        }
+
+        return true
+    }
+
+    @SuppressLint("RestrictedApi")
+    protected fun createLocationRequest() {
+        mLocationRequest = LocationRequest()
+        mLocationRequest!!.interval = Constants.INTERVAL
+        mLocationRequest!!.fastestInterval = Constants.FIRST_INTERVAL
+        mLocationRequest!!.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+    }
+
     companion object {
+
+        private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
+        private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000
+        private val REQUEST_CHECK_SETTINGS = 100
+        private val REQUEST_LOCATION_LIB = 1001
 
         private val INITIAL_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)

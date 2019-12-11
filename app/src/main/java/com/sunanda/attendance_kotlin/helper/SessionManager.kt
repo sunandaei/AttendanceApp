@@ -20,7 +20,7 @@ constructor(internal var _context: Context) {
         get() = pref.getBoolean(KEY_IS_LOGGED_IN, false)
 
 
-    var isFirstTIme: Boolean = false
+    val isFirstTIme: Boolean
         get() = pref.getBoolean(KEY_IS_FIRST, false)
 
     val isExit: Boolean

@@ -72,8 +72,8 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_attendance)
-        
-        initValue();
+
+        initValue()
     }
 
     private fun initValue() {
@@ -228,8 +228,8 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
             if (databaseHandler.insertData(sessionManager.keyId!!,
                             address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
                             "Attendance", current_date!!, current_date!!, "", current_date_time!!)) {
+                sessionManager.setIsFirst(true)
                 ShowDialog("Data Saved Successfully")
-                sessionManager.isFirstTIme = true
             } else {
                 ErrorDialog("Unable To Save Data!")
             }
@@ -393,8 +393,8 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
     }
 
     companion object {
-        private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
-        private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000
+        private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000 * 60
+        private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 15000
         private val REQUEST_CHECK_SETTINGS = 100
 
         private val INITIAL_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)

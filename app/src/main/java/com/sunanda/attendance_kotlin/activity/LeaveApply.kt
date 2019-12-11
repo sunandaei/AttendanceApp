@@ -78,8 +78,8 @@ class LeaveApply : AppCompatActivity() {
         end_date = findViewById(R.id.end_date)
         task = findViewById(R.id.task)
 
-        task.imeOptions = EditorInfo.IME_ACTION_DONE
-        task.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        /*task.imeOptions = EditorInfo.IME_ACTION_DONE
+        task.setRawInputType(InputType.TYPE_CLASS_TEXT)*/
 
         radioGroup.setOnCheckedChangeListener { _, _ ->
             value = (findViewById<View>(radioGroup.checkedRadioButtonId) as RadioButton)

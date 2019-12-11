@@ -112,14 +112,14 @@ class SplashActivity : AppCompatActivity() {
                     finish()
                 }
             } else {
-                sessionManager.setIsExit(false)
+                //sessionManager.setIsExit(false)
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 overridePendingTransition(R.anim.left_in, R.anim.right_out)
                 finish()
             }
         } catch (e: ParseException) {
             //e.printStackTrace()
-            sessionManager.setIsExit(false)
+            //sessionManager.setIsExit(false)
             startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             overridePendingTransition(R.anim.left_in, R.anim.right_out)
             finish()

@@ -1,7 +1,6 @@
 package com.sunanda.attendance_kotlin.activity
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -17,6 +16,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.InputType
 import android.text.TextUtils
+import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -32,7 +32,6 @@ import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.*
 import com.sunanda.attendance_kotlin.model.ServerResponse
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_new_event.*
 import okhttp3.*
 import org.json.JSONException
@@ -42,12 +41,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class NewEventActivity : AppCompatActivity() {
 
@@ -112,16 +110,19 @@ class NewEventActivity : AppCompatActivity() {
         current_location = findViewById(R.id.current_location)
         loadingDialog = LoadingDialog(this)
 
+        //task.imeOptions = EditorInfo.IME_ACTION_DONE
+        //task.setRawInputType(InputType.TYPE_CLASS_TEXT)
+
         databaseHandler = DatabaseHandler(this)
 
-        address.imeOptions = EditorInfo.IME_ACTION_NEXT
+        /*address.imeOptions = EditorInfo.IME_ACTION_NEXT
         address.setRawInputType(InputType.TYPE_CLASS_TEXT)
         task.imeOptions = EditorInfo.IME_ACTION_DONE
-        task.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        task.setRawInputType(InputType.TYPE_CLASS_TEXT)*/
 
         ivPicture = findViewById(R.id.ivPicture)
         btnTakeImage.setOnClickListener(View.OnClickListener {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            /*val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             var f: File? = null
             try {
                 f = setUpPhotoFile()
@@ -132,7 +133,8 @@ class NewEventActivity : AppCompatActivity() {
                 mCurrentPhotoPath = ""
                 e.printStackTrace()
             }
-            startActivityForResult(takePictureIntent, CAMERA_REQUEST)
+            startActivityForResult(takePictureIntent, CAMERA_REQUEST)*/
+            selectImage()
         })
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -453,22 +455,6 @@ class NewEventActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-
-            CAMERA_REQUEST -> when (resultCode) {
-                Activity.RESULT_OK -> handleBigCameraPhoto()
-                Activity.RESULT_CANCELED -> {
-                    mCurrentPhotoPath = ""
-                    ivPicture.setImageBitmap(null)
-                }
-            }
-        }
-    }
-
     private fun handleBigCameraPhoto() {
         if (mCurrentPhotoPath != "") {
             setPic()
@@ -703,6 +689,161 @@ class NewEventActivity : AppCompatActivity() {
         private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
         private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000
         private val REQUEST_CHECK_SETTINGS = 100
+    }
+
+
+    private fun selectImage() {
+        val options = arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
+        val builder = android.support.v7.app.AlertDialog.Builder(this@NewEventActivity)
+        builder.setTitle("Add Photo!")
+        builder.setItems(options) { dialog, item ->
+            if (options[item] == "Take Photo") {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                val f = File(Environment.getExternalStorageDirectory(), "temp.jpg")
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f))
+                startActivityForResult(intent, 1)
+            } else if (options[item] == "Choose from Gallery") {
+                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intent, 2)
+            } else if (options[item] == "Cancel") {
+                dialog.dismiss()
+            }
+        }
+        builder.show()
+    }
+
+
+    /*
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+
+            CAMERA_REQUEST -> when (resultCode) {
+                Activity.RESULT_OK -> handleBigCameraPhoto()
+                Activity.RESULT_CANCELED -> {
+                    mCurrentPhotoPath = ""
+                    ivPicture.setImageBitmap(null)
+                }
+            }
+        }
+    }
+    * */
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                var f = File(Environment.getExternalStorageDirectory().toString())
+                for (temp in f.listFiles()) {
+                    if (temp.name == "temp.jpg") {
+                        f = temp
+                        break
+                    }
+                }
+                try {
+                    var bitmap: Bitmap
+                    val bitmapOptions = BitmapFactory.Options()
+                    bitmap = BitmapFactory.decodeFile(f.absolutePath, bitmapOptions)
+                    bitmap = getResizedBitmap(bitmap, 1000)
+                    ivPicture.setImageBitmap(bitmap)
+                    //upload_bitmap = bitmap
+                    mCurrentPhotoPath = BitMapToString(bitmap)!!
+
+                    val path = (Environment
+                            .getExternalStorageDirectory().toString()
+                            + File.separator
+                            + getString(R.string.app_name) + File.separator + "default")
+                    f.delete()
+                    var outFile: OutputStream? = null
+                    val file = File(path, System.currentTimeMillis().toString() + ".jpg")
+                    try {
+                        outFile = FileOutputStream(file)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile)
+                        outFile.flush()
+                        outFile.close()
+                    } catch (e: FileNotFoundException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            } else if (requestCode == 2) {
+
+                try {
+                    val uri = data!!.data
+                    val realPath = getRealPathFromURI(uri!!)
+
+                    /* val selectedImage = data.data
+                val filePath = arrayOf(MediaStore.Images.Media.DATA)
+                val c = contentResolver.query(selectedImage, filePath, null, null, null)
+                c!!.moveToFirst()
+                val columnIndex = c.getColumnIndex(filePath[0])
+                val picturePath = c.getString(columnIndex)
+                c.close()*/
+                    var thumbnail = BitmapFactory.decodeFile(realPath)
+                    thumbnail = getResizedBitmap(thumbnail, 1000)
+                    //Log.d("path image from gallery", picturePath + "");
+                    ivPicture.setImageBitmap(thumbnail)
+                    //upload_bitmap = thumbnail
+                    //mCurrentPhotoPath = BitMapToString(thumbnail)!!
+                    mCurrentPhotoPath = realPath
+                }catch (e : Exception){
+                    Toast.makeText(this, "Unable to fetch the image path. Please try different image.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    fun getRealPathFromURI(uri: Uri): String {
+        val projection: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+
+        val cursor = managedQuery(uri, projection, null, null, null)
+        val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
+    }
+
+    fun BitMapToString(userImage1: Bitmap): String? {
+        val baos = ByteArrayOutputStream()
+        userImage1.compress(Bitmap.CompressFormat.PNG, 50, baos)
+        val b = baos.toByteArray()
+        mCurrentPhotoPath = Base64.encodeToString(b, Base64.DEFAULT)
+        return mCurrentPhotoPath
+    }
+
+    fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
+        var width = image.width
+        var height = image.height
+
+        val bitmapRatio = width.toFloat() / height.toFloat()
+        if (bitmapRatio > 1) {
+            width = maxSize
+            height = (width / bitmapRatio).toInt()
+        } else {
+            height = maxSize
+            width = (height * bitmapRatio).toInt()
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true)
+    }
+
+    fun StringToBitMap(image: String): Bitmap? {
+        try {
+            val encodeByte = Base64.decode(image, Base64.DEFAULT)
+            val inputStream = ByteArrayInputStream(encodeByte)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            return bitmap
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

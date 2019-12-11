@@ -86,6 +86,9 @@ class NextActivity : AppCompatActivity(), LocationListener {
         current_location = findViewById(R.id.current_location)
         loadingDialog = LoadingDialog(this)
 
+        //task.imeOptions = EditorInfo.IME_ACTION_DONE
+        //task.setRawInputType(InputType.TYPE_CLASS_TEXT)
+
         databaseHandler = DatabaseHandler(this)
 
         name.text = sessionManager.name
@@ -136,8 +139,8 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
                     restart.setOnClickListener {
                         mydialog.dismiss()
-                        sessionManager.setIsExit(true)
-                        sessionManager.isFirstTIme = false
+                        //sessionManager.setIsExit(true)
+                        sessionManager.setIsFirst(false)
                         finish()
                     }
                     mydialog.show()
@@ -149,10 +152,10 @@ class NextActivity : AppCompatActivity(), LocationListener {
             dialog.show()
         }
 
-        address.imeOptions = EditorInfo.IME_ACTION_NEXT
+        /*address.imeOptions = EditorInfo.IME_ACTION_NEXT
         address.setRawInputType(InputType.TYPE_CLASS_TEXT)
         task.imeOptions = EditorInfo.IME_ACTION_DONE
-        task.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        task.setRawInputType(InputType.TYPE_CLASS_TEXT)*/
 
         findViewById<View>(R.id.addTask).setOnClickListener {
             if (TextUtils.isEmpty(address.text.toString())) {
@@ -499,8 +502,9 @@ class NextActivity : AppCompatActivity(), LocationListener {
         btnOkay.setOnClickListener {
             dialog.dismiss()
             sessionManager.setLogin(false, "", "", sessionManager.email!!, "", "0000-00-00")
+            sessionManager.setIsFirst(false)
             overridePendingTransition(R.anim.right_in, R.anim.left_out)
-            finish()
+            finishAffinity()
         }
         btnCancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -518,7 +522,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         btn_yes.setOnClickListener {
             overridePendingTransition(R.anim.right_in, R.anim.left_out)
-            finish()
+            finishAffinity()
         }
         btn_no.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -562,8 +566,8 @@ class NextActivity : AppCompatActivity(), LocationListener {
     }
 
     companion object {
-        private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
-        private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000
+        private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000 * 60
+        private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 15000
         private val REQUEST_CHECK_SETTINGS = 100
     }
 }
