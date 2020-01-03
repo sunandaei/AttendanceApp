@@ -1,5 +1,6 @@
 package com.sunanda.attendance_kotlin.database
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -80,6 +81,20 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             Log.e(TAG, "Add_DATA:- ", e)
         }
         return flag
+    }
+
+    fun updateRecord(str: String, id: String, uid: String) {
+        val db = this.writableDatabase
+        try {
+            val cv = ContentValues()
+            cv.put("task", str)
+            //db.update("attendance", cv, "_id = $id and user_id = $uid", null)
+            db.update("attendance", cv, "_id = ? and user_id = ?", arrayOf(id, uid))
+            db.close()
+        } catch (e: Exception) {
+            db.close()
+            Log.e(TAG, " UPDATE:- ", e)
+        }
     }
 
 

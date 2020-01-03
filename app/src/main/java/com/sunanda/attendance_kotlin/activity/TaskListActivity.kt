@@ -12,27 +12,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.sunanda.attendance_kotlin.Interface.ApiInterface
 import com.sunanda.attendance_kotlin.adapter.NewTaskAdapter
 import com.sunanda.attendance_kotlin.R
-import com.sunanda.attendance_kotlin.adapter.TaskAdapter
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
-import com.sunanda.attendance_kotlin.helper.Constants
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.SessionManager
 import com.sunanda.attendance_kotlin.model.TaskPojo
-import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -108,7 +94,7 @@ class TaskListActivity : AppCompatActivity() {
         }
     }
 
-    private fun getList() {
+    /*private fun getList() {
 
         taskPojoArrayList = ArrayList()
 
@@ -186,7 +172,7 @@ class TaskListActivity : AppCompatActivity() {
                 loadingDialog.hideDialog()
             }
         })
-    }
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId

@@ -13,7 +13,7 @@ import android.view.Window
 import android.view.animation.AnimationUtils
 import android.widget.*
 import com.sunanda.attendance_kotlin.*
-import com.sunanda.attendance_kotlin.Interface.ApiInterface
+import com.sunanda.attendance_kotlin.myInterface.ApiInterface
 import com.sunanda.attendance_kotlin.helper.Constants
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.SessionManager

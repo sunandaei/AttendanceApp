@@ -8,18 +8,16 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.text.InputType
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
-import android.view.inputmethod.EditorInfo
 import android.widget.*
-import com.sunanda.attendance_kotlin.Interface.ApiInterface
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.helper.Constants
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.SessionManager
+import com.sunanda.attendance_kotlin.myInterface.ApiInterface
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -273,6 +271,13 @@ class LeaveApply : AppCompatActivity() {
 
     private fun sendLeaveInfo() {
 
+        val c = Calendar.getInstance()
+        @SuppressLint("SimpleDateFormat")
+        val df = SimpleDateFormat("yyyy-MM-dd")
+        @SuppressLint("SimpleDateFormat")
+        val formattedDate = df.format(c.time)
+        val current_date_time = formattedDate
+
         val httpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -292,7 +297,7 @@ class LeaveApply : AppCompatActivity() {
         val services = retrofit.create(ApiInterface::class.java)
 
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,// not null
-                "NA", task.text.toString(), "0.0", "0.0", "Leave", Sdate, Edate, "")
+                "NA", task.text.toString(), "0.0", "0.0", "Leave", Sdate, Edate, current_date_time, "")
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 

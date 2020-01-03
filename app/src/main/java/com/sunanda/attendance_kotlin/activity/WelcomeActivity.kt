@@ -27,8 +27,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.sunanda.attendance_kotlin.Interface.ApiConfig
-import com.sunanda.attendance_kotlin.Interface.ApiInterface
+import com.sunanda.attendance_kotlin.myInterface.ApiConfig
+import com.sunanda.attendance_kotlin.myInterface.ApiInterface
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.*
@@ -250,11 +250,13 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
             if (network!!) {
                 taskPojoArrayListDB = databaseHandler.getData()
                 for (i in 0 until taskPojoArrayListDB.size) {
-                    if (TextUtils.isEmpty(taskPojoArrayListDB[i].imageName))
+                    SendData(i)
+
+                    /*if (TextUtils.isEmpty(taskPojoArrayListDB[i].imageName))
                         SendData(i)
                     else
                         uploadFileSource(taskPojoArrayListDB[i].imageName!!,
-                                taskPojoArrayListDB[i].imageName!!.substring(taskPojoArrayListDB[i].imageName!!.lastIndexOf('/') + 1), i)
+                                taskPojoArrayListDB[i].imageName!!.substring(taskPojoArrayListDB[i].imageName!!.lastIndexOf('/') + 1), i)*/
                 }
             } else {
                 startActivity(Intent(this@WelcomeActivity, NetworkConnection::class.java))
@@ -282,7 +284,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
         call.enqueue(object : Callback<ServerResponse> {
             override fun onResponse(call: Call<ServerResponse>, response: Response<ServerResponse>) {
                 val serverResponse = response.body()
-                Log.d("RESPONSE", serverResponse.toString())
+                //Log.d("RESPONSE", serverResponse.toString())
                 if (serverResponse != null) {
                     if (serverResponse.success.equals("200")) {
                         //ShowDialog(serverResponse.message!!)
@@ -343,7 +345,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 taskPojoArrayListDB[pos].address!!, taskPojoArrayListDB[pos].task!!, taskPojoArrayListDB[pos].lat!!,
                 taskPojoArrayListDB[pos].lon!!, "Event", taskPojoArrayListDB[pos].date_from!!,
-                taskPojoArrayListDB[pos].date_to!!, finename)
+                taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, finename)
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
@@ -369,7 +371,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
                         } else {
                             ErrorDialog(jsonObject.getString("message"))
                         }
-                    } catch (e: JSONException) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     } catch (e: IOException) {
                         e.printStackTrace()
@@ -410,7 +412,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 taskPojoArrayListDB[pos].address!!, taskPojoArrayListDB[pos].task!!, taskPojoArrayListDB[pos].lat!!,
                 taskPojoArrayListDB[pos].lon!!, "Attendance", taskPojoArrayListDB[pos].date_from!!,
-                taskPojoArrayListDB[pos].date_to!!, "")
+                taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, "")
 
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
 
@@ -420,6 +422,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
 
                     try {
                         val jsonObject = JSONObject(response.body()!!.string())
+                        Log.d("RESPONSE", jsonObject.toString())
                         if (jsonObject.getInt("resCode") == 200) {
                             //ShowDialog(jsonObject.getString("message"))
                             databaseHandler.deleteData(taskPojoArrayListDB[pos]._id.toString())
@@ -433,7 +436,9 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
 
                                 builder.setPositiveButton("DONE") { dialog, which ->
                                     dialog.dismiss()
-                                    deleteAllImage()
+                                    overridePendingTransition(R.anim.right_in, R.anim.left_out)
+                                    finishAffinity()
+                                    //deleteAllImage()
                                 }
                                 /*builder.setNegativeButton(android.R.string.no) { dialog, which ->
                                     Toast.makeText(applicationContext,

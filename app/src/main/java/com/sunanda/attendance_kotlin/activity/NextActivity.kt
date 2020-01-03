@@ -11,12 +11,10 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.support.v7.app.AppCompatActivity
-import android.text.InputType
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -24,27 +22,13 @@ import android.widget.Toast
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.sunanda.attendance_kotlin.Interface.ApiInterface
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
-import com.sunanda.attendance_kotlin.helper.Constants
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.LocationAddress
 import com.sunanda.attendance_kotlin.helper.SessionManager
-import kotlinx.android.synthetic.main.activity_next.*
-import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class NextActivity : AppCompatActivity(), LocationListener {
 
@@ -96,7 +80,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         findViewById<View>(R.id.logout).setOnClickListener { logout() }
 
-        findViewById<View>(R.id.fab).setOnClickListener {
+        findViewById<View>(R.id.viewAll).setOnClickListener {
             startActivity(Intent(this@NextActivity, TaskListActivity::class.java))
             overridePendingTransition(R.anim.left_in, R.anim.right_out)
         }
@@ -123,6 +107,14 @@ class NextActivity : AppCompatActivity(), LocationListener {
             btnOkay.setOnClickListener {
                 dialog.dismiss()
                 //sendDataExit()
+
+                val c = Calendar.getInstance()
+                @SuppressLint("SimpleDateFormat")
+                val df2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                @SuppressLint("SimpleDateFormat")
+                val formattedDate2 = df2.format(c.time)
+                current_date_time = formattedDate2
+
                 if (databaseHandler.insertData(sessionManager.keyId!!,
                                 nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
                                 "Attendance", current_date, current_date, "", current_date_time)) {
@@ -194,11 +186,15 @@ class NextActivity : AppCompatActivity(), LocationListener {
         startLocationUpdates()
 
         current_location.setOnClickListener {
-            if (!TextUtils.isEmpty(tvAddress.text.toString())) {
-                address.setText(tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1])
-                address.setSelection(address.text.toString().length)
-            } else {
-                Toast.makeText(this@NextActivity, "Current location not found!", Toast.LENGTH_SHORT).show()
+            try {
+                if (!TextUtils.isEmpty(tvAddress.text.toString())) {
+                    address.setText(tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1])
+                    address.setSelection(address.text.toString().length)
+                } else {
+                    Toast.makeText(this@NextActivity, "Current location not found!", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@NextActivity, "Unable to get Current Address. Please input it manually!", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -215,10 +211,10 @@ class NextActivity : AppCompatActivity(), LocationListener {
         val formattedDate2 = df2.format(c.time)
         current_date_time = formattedDate2
 
-        addEvent.setOnClickListener {
+        /*addEvent.setOnClickListener {
             startActivity(Intent(this@NextActivity, NewEventActivity::class.java))
             overridePendingTransition(R.anim.left_in, R.anim.right_out)
-        }
+        }*/
     }
 
     @SuppressLint("MissingPermission")
@@ -329,60 +325,60 @@ class NextActivity : AppCompatActivity(), LocationListener {
         dialog.setCancelable(false)
     }
 
-    private fun sendData() {
+    /* private fun sendData() {
 
-        val httpClient = OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .addInterceptor { chain ->
-                    val ongoing = chain.request().newBuilder()
-                    chain.proceed(ongoing.build())
-                }
-                .build()
+         val httpClient = OkHttpClient.Builder()
+                 .connectTimeout(60, TimeUnit.SECONDS)
+                 .readTimeout(60, TimeUnit.SECONDS)
+                 .writeTimeout(60, TimeUnit.SECONDS)
+                 .addInterceptor { chain ->
+                     val ongoing = chain.request().newBuilder()
+                     chain.proceed(ongoing.build())
+                 }
+                 .build()
 
-        loadingDialog.showDialog()
-        val retrofit = Retrofit.Builder()
-                .baseUrl(Constants.ROOT_URL)
-                .client(httpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val services = retrofit.create(ApiInterface::class.java)
+         loadingDialog.showDialog()
+         val retrofit = Retrofit.Builder()
+                 .baseUrl(Constants.ROOT_URL)
+                 .client(httpClient)
+                 .addConverterFactory(GsonConverterFactory.create())
+                 .build()
+         val services = retrofit.create(ApiInterface::class.java)
 
-        val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
-                address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
-                tvLongitude.text.toString(), "Task", current_date, current_date, "")
-        loginResponseCall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
+                 address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
+                 tvLongitude.text.toString(), "Task", current_date, current_date, "")
+         loginResponseCall.enqueue(object : Callback<ResponseBody> {
+             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
-                if (response.body() != null) {
+                 if (response.body() != null) {
 
-                    try {
-                        val jsonObject = JSONObject(response.body()!!.string())
-                        if (jsonObject.getInt("resCode") == 200) {
-                            ShowDialog(jsonObject.getString("message"))
-                        } else {
-                            ErrorDialog(jsonObject.getString("message"))
-                        }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+                     try {
+                         val jsonObject = JSONObject(response.body()!!.string())
+                         if (jsonObject.getInt("resCode") == 200) {
+                             ShowDialog(jsonObject.getString("message"))
+                         } else {
+                             ErrorDialog(jsonObject.getString("message"))
+                         }
+                     } catch (e: JSONException) {
+                         e.printStackTrace()
+                     } catch (e: IOException) {
+                         e.printStackTrace()
+                     }
 
-                } else {
-                    ErrorDialog("Something went wrong!")
-                }
-                loadingDialog.hideDialog()
-            }
+                 } else {
+                     ErrorDialog("Something went wrong!")
+                 }
+                 loadingDialog.hideDialog()
+             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                loadingDialog.hideDialog()
-            }
-        })
-    }
+             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                 loadingDialog.hideDialog()
+             }
+         })
+     }*/
 
-    private fun sendDataExit() {
+    /*private fun sendDataExit() {
 
         val httpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -455,7 +451,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
                 loadingDialog.hideDialog()
             }
         })
-    }
+    }*/
 
     private fun SaveData() {
 

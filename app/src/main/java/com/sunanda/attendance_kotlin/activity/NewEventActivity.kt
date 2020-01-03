@@ -14,20 +14,18 @@ import android.provider.MediaStore
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.text.InputType
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
-import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.sunanda.attendance_kotlin.Interface.ApiConfig
-import com.sunanda.attendance_kotlin.Interface.ApiInterface
+import com.sunanda.attendance_kotlin.myInterface.ApiConfig
+import com.sunanda.attendance_kotlin.myInterface.ApiInterface
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.*
@@ -251,7 +249,7 @@ class NewEventActivity : AppCompatActivity() {
                 if (serverResponse != null) {
                     if (serverResponse.success.equals("200")) {
                         //ShowDialog(serverResponse.message!!)
-                        sendData(str2)
+                        //sendData(str2)
                         //Toast.makeText(applicationContext, serverResponse.message, Toast.LENGTH_SHORT).show();
                     } else {
                         ErrorDialog(serverResponse.message!!)
@@ -285,7 +283,7 @@ class NewEventActivity : AppCompatActivity() {
         })
     }
 
-    private fun sendData(finename: String) {
+    /*private fun sendData(finename: String) {
 
         val httpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -307,7 +305,7 @@ class NewEventActivity : AppCompatActivity() {
 
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
-                tvLongitude.text.toString(), "Event", current_date, current_date, finename)
+                tvLongitude.text.toString(), "Event", current_date, current_date, "", finename)
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
@@ -336,7 +334,7 @@ class NewEventActivity : AppCompatActivity() {
                 loadingDialog.hideDialog()
             }
         })
-    }
+    }*/
 
     private fun ShowDialog(msg: String) {
 

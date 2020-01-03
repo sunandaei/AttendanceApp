@@ -15,7 +15,8 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-class TaskAdapter(internal var context: Context, private val stringList: List<TaskPojo>) : RecyclerView.Adapter<TaskAdapter.MyViewHolder>() {
+class TaskAdapter(internal var context: Context, private val stringList: List<TaskPojo>) :
+        RecyclerView.Adapter<TaskAdapter.MyViewHolder>() {
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 

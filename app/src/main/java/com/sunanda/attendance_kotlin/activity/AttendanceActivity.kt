@@ -24,7 +24,7 @@ import android.widget.Toast
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.sunanda.attendance_kotlin.Interface.ApiInterface
+import com.sunanda.attendance_kotlin.myInterface.ApiInterface
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.Constants
@@ -135,11 +135,15 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
         startLocationUpdates()
 
         current_location.setOnClickListener {
-            if (!TextUtils.isEmpty(tvAddress.text.toString())) {
-                address.setText(tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1])
-                address.setSelection(address.text.toString().length)
-            } else {
-                Toast.makeText(this@AttendanceActivity, "Current location not found!", Toast.LENGTH_SHORT).show()
+            try {
+                if (!TextUtils.isEmpty(tvAddress.text.toString())) {
+                    address.setText(tvAddress.text.toString().split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1])
+                    address.setSelection(address.text.toString().length)
+                } else {
+                    Toast.makeText(this@AttendanceActivity, "Current location not found!", Toast.LENGTH_SHORT).show()
+                }
+            }catch (e: Exception){
+                Toast.makeText(this@AttendanceActivity, "Unable to get Current Address. Please do it manually!", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -185,7 +189,6 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
                             } catch (sie: IntentSender.SendIntentException) {
                                 Log.i("", "PendingIntent unable to execute request.")
                             }
-
                         }
                         LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
                             val errorMessage = "Location settings are inadequate, and cannot be " + "fixed here. Fix in Settings."
@@ -274,7 +277,7 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
         dialog.setCancelable(false)
     }
 
-    private fun SendData() {
+    /*private fun SendData() {
 
         val httpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -327,7 +330,7 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
                 loadingDialog.hideDialog()
             }
         })
-    }
+    }*/
 
     override fun onBackPressed() {
         /*final Dialog dialog = new Dialog(this);
