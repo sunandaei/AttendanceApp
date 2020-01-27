@@ -30,6 +30,8 @@ import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.*
 import com.sunanda.attendance_kotlin.model.ServerResponse
+import com.sunanda.attendance_kotlin.room.DatabaseClient
+import com.sunanda.attendance_kotlin.room.TaskPojoUsingRoom
 import kotlinx.android.synthetic.main.activity_new_event.*
 import okhttp3.*
 import org.json.JSONException
@@ -44,7 +46,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
+// Currently not used
 class NewEventActivity : AppCompatActivity() {
 
     internal lateinit var sessionManager: SessionManager

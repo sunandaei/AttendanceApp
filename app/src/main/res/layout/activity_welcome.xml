@@ -129,4 +129,34 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp" />
 
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:text="VIEW \nALL"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            app:layout_anchor="@id/fab2"
+            app:layout_anchorGravity="center" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
 </RelativeLayout>

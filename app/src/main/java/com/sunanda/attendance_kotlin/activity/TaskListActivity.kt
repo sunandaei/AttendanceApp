@@ -2,6 +2,7 @@ package com.sunanda.attendance_kotlin.activity
 
 import android.app.Dialog
 import android.graphics.Typeface
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
@@ -12,13 +13,14 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.sunanda.attendance_kotlin.adapter.NewTaskAdapter
 import com.sunanda.attendance_kotlin.R
+import com.sunanda.attendance_kotlin.adapter.NewTaskAdapter
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.SessionManager
-import com.sunanda.attendance_kotlin.model.TaskPojo
-import java.util.*
+import com.sunanda.attendance_kotlin.room.DatabaseClient
+import com.sunanda.attendance_kotlin.room.TaskPojoUsingRoom
+import com.sunanda.attendance_kotlin.room.TaskRoomAdapter
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -30,7 +32,6 @@ class TaskListActivity : AppCompatActivity() {
     lateinit var databaseHandler: DatabaseHandler
 
     internal lateinit var recyclerView: RecyclerView
-    internal var taskPojoArrayList = ArrayList<TaskPojo>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +62,11 @@ class TaskListActivity : AppCompatActivity() {
 
     public override fun onResume() {
         super.onResume()
-        getListFromDB();
+        //getListFromDB();
+
+        // using room
+        getTasks()
+
         /*if (network!!) {
             getList()
         } else {
@@ -92,6 +97,49 @@ class TaskListActivity : AppCompatActivity() {
             dialog.show()
             dialog.setCancelable(false)
         }
+    }
+
+    private fun getTasks() {
+
+        class GetTasks : AsyncTask<Void, Void, List<TaskPojoUsingRoom>>() {
+
+            override fun doInBackground(vararg voids: Void): List<TaskPojoUsingRoom> {
+                return DatabaseClient
+                        .getInstance(this@TaskListActivity)
+                        .appDatabase
+                        .taskDao()
+                        .all
+            }
+
+            override fun onPostExecute(tasks: List<TaskPojoUsingRoom>) {
+                super.onPostExecute(tasks)
+
+                val taskPojoArrayListDB = tasks as ArrayList
+
+                if (taskPojoArrayListDB.size != 0) {
+                    //val trailAdapter = TaskAdapter(this@TaskListActivity, taskPojoArrayList)
+                    val trailAdapter = TaskRoomAdapter(this@TaskListActivity, taskPojoArrayListDB)
+                    recyclerView.adapter = trailAdapter
+                } else {
+                    val dialog = Dialog(this@TaskListActivity)
+                    dialog.setContentView(R.layout.error_popup)
+                    val dialogButton = dialog.findViewById<View>(R.id.dialogButtonOK) as Button
+                    val text = dialog.findViewById<TextView>(R.id.text)
+                    text.text = "No Record Found!"
+                    // if button is clicked, close the custom dialog
+                    dialogButton.setOnClickListener {
+                        dialog.dismiss()
+                        overridePendingTransition(R.anim.right_in, R.anim.left_out)
+                        finish()
+                    }
+                    dialog.show()
+                    dialog.setCancelable(false)
+                }
+            }
+        }
+
+        val gt = GetTasks()
+        gt.execute()
     }
 
     /*private fun getList() {

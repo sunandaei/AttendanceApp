@@ -2,6 +2,8 @@ package com.sunanda.attendance_kotlin.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
+import android.os.AsyncTask
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,6 +16,8 @@ import android.widget.Toast
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.model.NewTaskPojo
+import com.sunanda.attendance_kotlin.room.DatabaseClient
+import com.sunanda.attendance_kotlin.room.TaskPojoUsingRoom
 
 
 class NewTaskAdapter(internal var activity: Activity, private val stringList: ArrayList<NewTaskPojo>) :
@@ -76,7 +80,7 @@ class NewTaskAdapter(internal var activity: Activity, private val stringList: Ar
                     .setTitle("Delete entry")
                     .setMessage("Are you sure you want to delete this entry?")
                     .setPositiveButton(android.R.string.yes) { dialog, which ->
-                        databaseHandler.deleteData(stringList[position]._id.toString())
+                        //databaseHandler.deleteData(stringList[position]._id.toString())
                         notifyDataSetChanged()
                         //or use this for better performance.
                         notifyItemRemoved(position)

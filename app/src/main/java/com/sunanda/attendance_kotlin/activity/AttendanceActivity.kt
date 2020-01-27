@@ -6,10 +6,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.IntentSender
 import android.location.Location
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import android.text.TextUtils
@@ -24,26 +21,15 @@ import android.widget.Toast
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.sunanda.attendance_kotlin.myInterface.ApiInterface
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
-import com.sunanda.attendance_kotlin.helper.Constants
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.LocationAddress
 import com.sunanda.attendance_kotlin.helper.SessionManager
-import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
+import com.sunanda.attendance_kotlin.room.DatabaseClient
+import com.sunanda.attendance_kotlin.room.TaskPojoUsingRoom
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class AttendanceActivity : AppCompatActivity(), LocationListener {
 
@@ -228,14 +214,17 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
         dialog_positive_btn.setOnClickListener {
             dialog.dismiss()
             //SendData()
-            if (databaseHandler.insertData(sessionManager.keyId!!,
+            /*if (databaseHandler.insertData(sessionManager.keyId!!,
                             address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
                             "Attendance", current_date!!, current_date!!, "", current_date_time!!)) {
                 sessionManager.setIsFirst(true)
                 ShowDialog("Data Saved Successfully")
             } else {
                 ErrorDialog("Unable To Save Data!")
-            }
+            }*/
+            saveTask(sessionManager.keyId!!,
+                    address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                    "Attendance", current_date!!, current_date!!, current_date_time!!)
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -403,5 +392,44 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
         private val INITIAL_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
         private val INITIAL_REQUEST = 1514
+    }
+
+
+    /* Using room*/
+    private fun saveTask(user_id: String, address: String, tasks: String, lat: String, lon: String,
+                         type: String, date_from: String, date_to: String, time: String) {
+
+        class SaveTask : AsyncTask<Void, Void, Void>() {
+
+            override fun doInBackground(vararg voids: Void): Void? {
+
+                //creating a task
+                val taskPojo = TaskPojoUsingRoom()
+                taskPojo.user_id = user_id
+                taskPojo.address = address
+                taskPojo.tasks = tasks
+                taskPojo.lat = lat
+                taskPojo.lon = lon
+                taskPojo.type = type
+                taskPojo.date_from = date_from
+                taskPojo.date_to = date_to
+                taskPojo.time = time
+
+                //adding to database
+                DatabaseClient.getInstance(applicationContext).appDatabase
+                        .taskDao()
+                        .insert(taskPojo)
+                return null
+            }
+
+            override fun onPostExecute(aVoid: Void?) {
+                super.onPostExecute(aVoid)
+                sessionManager.setIsFirst(true)
+                ShowDialog("Data Saved Successfully")
+            }
+        }
+
+        val st = SaveTask()
+        st.execute()
     }
 }

@@ -6,10 +6,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.location.Location
 import android.location.LocationListener
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
@@ -27,6 +24,8 @@ import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.LoadingDialog
 import com.sunanda.attendance_kotlin.helper.LocationAddress
 import com.sunanda.attendance_kotlin.helper.SessionManager
+import com.sunanda.attendance_kotlin.room.DatabaseClient
+import com.sunanda.attendance_kotlin.room.TaskPojoUsingRoom
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -115,7 +114,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
                 val formattedDate2 = df2.format(c.time)
                 current_date_time = formattedDate2
 
-                if (databaseHandler.insertData(sessionManager.keyId!!,
+                /*if (databaseHandler.insertData(sessionManager.keyId!!,
                                 nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
                                 "Attendance", current_date, current_date, "", current_date_time)) {
                     //ShowDialog("Successfully Attendance Out. Thank You.")
@@ -138,7 +137,11 @@ class NextActivity : AppCompatActivity(), LocationListener {
                     mydialog.show()
                 } else {
                     ErrorDialog("Please Try Again!")
-                }
+                }*/
+
+                saveTask(0, sessionManager.keyId!!,
+                        nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                        "Attendance", current_date, current_date, current_date_time)
             }
             btnCancel.setOnClickListener { dialog.dismiss() }
             dialog.show()
@@ -467,13 +470,17 @@ class NextActivity : AppCompatActivity(), LocationListener {
         dialog_positive_btn.setOnClickListener {
             dialog.dismiss()
             //sendData()
-            if (databaseHandler.insertData(sessionManager.keyId!!,
+            /*if (databaseHandler.insertData(sessionManager.keyId!!,
                             address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
                             tvLongitude.text.toString(), "Task", current_date, current_date, "", current_date_time)) {
                 ShowDialog("Data Saved Successfully")
             } else {
                 ErrorDialog("Unable To Save Data!")
-            }
+            }*/
+
+            saveTask(1, sessionManager.keyId!!,
+                    address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
+                    tvLongitude.text.toString(), "Task", current_date, current_date, current_date_time)
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -565,5 +572,63 @@ class NextActivity : AppCompatActivity(), LocationListener {
         private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000 * 60
         private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 15000
         private val REQUEST_CHECK_SETTINGS = 100
+    }
+
+    /* Using room*/
+    private fun saveTask(value: Int, user_id: String, address: String, tasks: String, lat: String, lon: String,
+                         type: String, date_from: String, date_to: String, time: String) {
+
+        class SaveTask : AsyncTask<Void, Void, Void>() {
+
+            override fun doInBackground(vararg voids: Void): Void? {
+
+                //creating a task
+                val taskPojo = TaskPojoUsingRoom()
+                taskPojo.user_id = user_id
+                taskPojo.address = address
+                taskPojo.tasks = tasks
+                taskPojo.lat = lat
+                taskPojo.lon = lon
+                taskPojo.type = type
+                taskPojo.date_from = date_from
+                taskPojo.date_to = date_to
+                taskPojo.time = time
+
+                //adding to database
+                DatabaseClient.getInstance(applicationContext).appDatabase
+                        .taskDao()
+                        .insert(taskPojo)
+                return null
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onPostExecute(aVoid: Void?) {
+                super.onPostExecute(aVoid)
+                if (value == 1)
+                    ShowDialog("Data Saved Successfully")
+                else {
+                    val mydialog = Dialog(this@NextActivity)
+                    mydialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+                    mydialog.setContentView(R.layout.custom_dialog)
+                    mydialog.setCancelable(false)
+
+                    val restart = mydialog.findViewById<View>(R.id.restart) as Button
+                    val titleTxt = mydialog.findViewById<TextView>(R.id.title_txt)
+                    titleTxt.text = "Successfully Attendance Out. Thank You."
+
+                    restart.setOnClickListener {
+                        mydialog.dismiss()
+                        //sessionManager.setIsExit(true)
+                        sessionManager.setIsFirst(false)
+                        finish()
+                    }
+                    mydialog.show()
+                }
+            }
+        }
+
+        val st = SaveTask()
+        st.execute()
     }
 }

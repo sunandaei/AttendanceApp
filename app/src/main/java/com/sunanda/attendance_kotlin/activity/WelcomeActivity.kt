@@ -14,7 +14,6 @@ import android.os.*
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -27,13 +26,15 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.sunanda.attendance_kotlin.myInterface.ApiConfig
-import com.sunanda.attendance_kotlin.myInterface.ApiInterface
 import com.sunanda.attendance_kotlin.R
 import com.sunanda.attendance_kotlin.database.DatabaseHandler
 import com.sunanda.attendance_kotlin.helper.*
 import com.sunanda.attendance_kotlin.model.NewTaskPojo
 import com.sunanda.attendance_kotlin.model.ServerResponse
+import com.sunanda.attendance_kotlin.myInterface.ApiConfig
+import com.sunanda.attendance_kotlin.myInterface.ApiInterface
+import com.sunanda.attendance_kotlin.room.DatabaseClient
+import com.sunanda.attendance_kotlin.room.TaskPojoUsingRoom
 import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -46,7 +47,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -71,6 +71,9 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
 
     internal lateinit var networkChangeReceiver: NetworkChangeReceiver
     internal var network: Boolean? = false
+
+    lateinit var taskPojoRoomDB: ArrayList<TaskPojoUsingRoom>
+    var totel_count = 0
 
     private fun requestAllPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this@WelcomeActivity,
@@ -143,6 +146,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
                 .addApi(LocationServices.API).build()
         mGoogleApiClient.connect()
 
+        taskPojoRoomDB = ArrayList()
         sessionManager = SessionManager(this)
         loadingDialog = LoadingDialog(this)
 
@@ -170,7 +174,6 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
         mLocationSettingsRequest = builder.build()
 
         startLocationUpdates()
-
 
         attendance = findViewById<Button>(R.id.attendance)
         leave = findViewById(R.id.out)
@@ -234,34 +237,77 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
 
         getPermission()
 
-        databaseHandler = DatabaseHandler(this)
+        // Using Room
+        getTasks()
+
+        /*databaseHandler = DatabaseHandler(this)
         if (databaseHandler.getData().size != 0) {
             findViewById<View>(R.id.fab).visibility = View.VISIBLE
         } else {
             findViewById<View>(R.id.fab).visibility = View.GONE
-        }
+        }*/
     }
+
+    private fun getTasks() {
+
+        class GetTasks : AsyncTask<Void, Void, List<TaskPojoUsingRoom>>() {
+
+            override fun doInBackground(vararg voids: Void): List<TaskPojoUsingRoom> {
+                return DatabaseClient
+                        .getInstance(this@WelcomeActivity)
+                        .appDatabase
+                        .taskDao()
+                        .all
+            }
+
+            override fun onPostExecute(tasks: List<TaskPojoUsingRoom>) {
+                super.onPostExecute(tasks)
+
+                taskPojoRoomDB = tasks as ArrayList
+                totel_count = taskPojoRoomDB.size
+                if (taskPojoRoomDB.size != 0) {
+                    findViewById<View>(R.id.fab).visibility = View.VISIBLE
+                    findViewById<View>(R.id.container).visibility = View.VISIBLE
+                } else {
+                    findViewById<View>(R.id.fab).visibility = View.GONE
+                    findViewById<View>(R.id.container).visibility = View.GONE
+                }
+            }
+        }
+
+        val gt = GetTasks()
+        gt.execute()
+    }
+
 
     override fun onResume() {
         super.onResume()
         networkChangeReceiver = NetworkChangeReceiver(this)
         network = networkChangeReceiver.isNetworkAvailable
+
         findViewById<View>(R.id.fab).setOnClickListener {
             if (network!!) {
-                taskPojoArrayListDB = databaseHandler.getData()
+                /*taskPojoArrayListDB = databaseHandler.getData()
                 for (i in 0 until taskPojoArrayListDB.size) {
-                    SendData(i)
+                    SendData(i)*/
+
+                for (i in 0 until taskPojoRoomDB.size)
+                    SendRoomData(i)
 
                     /*if (TextUtils.isEmpty(taskPojoArrayListDB[i].imageName))
                         SendData(i)
                     else
                         uploadFileSource(taskPojoArrayListDB[i].imageName!!,
                                 taskPojoArrayListDB[i].imageName!!.substring(taskPojoArrayListDB[i].imageName!!.lastIndexOf('/') + 1), i)*/
-                }
             } else {
                 startActivity(Intent(this@WelcomeActivity, NetworkConnection::class.java))
                 overridePendingTransition(R.anim.left_in, R.anim.right_out)
             }
+        }
+
+        findViewById<View>(R.id.fab2).setOnClickListener {
+            startActivity(Intent(this@WelcomeActivity, TaskListActivity::class.java))
+            overridePendingTransition(R.anim.left_in, R.anim.right_out)
         }
     }
 
@@ -471,6 +517,121 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
             }
         })
     }
+
+
+    private fun SendRoomData(pos: Int) {
+
+        val httpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor { chain ->
+                    val ongoing = chain.request().newBuilder()
+                    chain.proceed(ongoing.build())
+                }
+                .build()
+
+        loadingDialog.showDialog()
+        val retrofit = Retrofit.Builder()
+                .baseUrl(Constants.ROOT_URL)
+                .client(httpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val services = retrofit.create(ApiInterface::class.java)
+
+        /*val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
+                taskPojoArrayListDB[pos].address!!, taskPojoArrayListDB[pos].task!!, taskPojoArrayListDB[pos].lat!!,
+                taskPojoArrayListDB[pos].lon!!, "Attendance", taskPojoArrayListDB[pos].date_from!!,
+                taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, "")*/
+
+        val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
+                taskPojoRoomDB[pos].address!!, taskPojoRoomDB[pos].tasks!!, taskPojoRoomDB[pos].lat!!,
+                taskPojoRoomDB[pos].lon!!, "Attendance", taskPojoRoomDB[pos].date_from!!,
+                taskPojoRoomDB[pos].date_to!!, taskPojoRoomDB[pos].time!!, "")
+
+        loginResponseCall.enqueue(object : Callback<ResponseBody> {
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                if (response.body() != null) {
+
+                    try {
+                        val jsonObject = JSONObject(response.body()!!.string())
+                        Log.d("RESPONSE", jsonObject.toString())
+                        if (jsonObject.getInt("resCode") == 200) {
+                            //ShowDialog(jsonObject.getString("message"))
+                            deleteTask(taskPojoRoomDB[pos])
+                        } else {
+                            ErrorDialog(jsonObject.getString("message"))
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    ErrorDialog("Something went wrong!")
+                }
+                loadingDialog.hideDialog()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                loadingDialog.hideDialog()
+            }
+        })
+    }
+
+    private fun deleteTask(task: TaskPojoUsingRoom) {
+
+        class DeleteTask : AsyncTask<Void, Void, Void>() {
+
+            override fun doInBackground(vararg voids: Void): Void? {
+                DatabaseClient.getInstance(this@WelcomeActivity).appDatabase
+                        .taskDao()
+                        .delete(task)
+                return null
+            }
+
+            override fun onPostExecute(aVoid: Void?) {
+                super.onPostExecute(aVoid)
+                //Toast.makeText(activity, "Deleted", Toast.LENGTH_LONG).show()
+                //Log.d("DELETE", "Deleted")
+                totel_count--
+                if (totel_count == 0) {
+
+                    val builder = AlertDialog.Builder(this@WelcomeActivity)
+                    //builder.setTitle("Androidly Alert")
+                    builder.setMessage("All Information Uploaded Successfully")
+                    //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+                    builder.setPositiveButton("DONE") { dialog, which ->
+                        dialog.dismiss()
+                        overridePendingTransition(R.anim.right_in, R.anim.left_out)
+                        finishAffinity()
+                        //deleteAllImage()
+                    }
+                    /*builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                        Toast.makeText(applicationContext,
+                                android.R.string.no, Toast.LENGTH_SHORT).show()
+                    }
+
+                    builder.setNeutralButton("Maybe") { dialog, which ->
+                        Toast.makeText(applicationContext,
+                                "Maybe", Toast.LENGTH_SHORT).show()
+                    }*/
+                    builder.setCancelable(false)
+                    builder.show()
+                    builder.create()
+                }
+            }
+        }
+
+        val dt = DeleteTask()
+        dt.execute()
+    }
+
+
+
 
     fun getFileDataFromDrawable(bitmap: Bitmap?): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
