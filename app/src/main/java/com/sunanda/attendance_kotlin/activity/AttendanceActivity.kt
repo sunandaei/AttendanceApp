@@ -10,6 +10,7 @@ import android.os.*
 import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import android.text.TextUtils
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -201,7 +202,9 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun ShowSubmitDialog() {
+
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -222,12 +225,27 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
             } else {
                 ErrorDialog("Unable To Save Data!")
             }*/
-            saveTask(sessionManager.keyId!!,
-                    address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
-                    "Attendance", current_date!!, current_date!!, current_date_time!!)
+
+            //val date = Date(TimeUnit.MILLISECONDS.toSeconds(mCurrentLocation!!.time))
+            //val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+
+            try {
+                saveTask(sessionManager.keyId!!,
+                        address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                        "Attendance", current_date!!, current_date!!, /*current_date_time!!*/
+                        convertDate((mCurrentLocation!!.time).toString(), "dd-MM-yyyy HH:mm:ss"))
+            } catch (e: Exception) {
+                saveTask(sessionManager.keyId!!,
+                        address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                        "Attendance", current_date!!, current_date!!, current_date_time!!)
+            }
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()
+    }
+
+    private fun convertDate(dateInMilliseconds: String, dateFormat: String): String {
+        return DateFormat.format(dateFormat, dateInMilliseconds.toLong()).toString()
     }
 
     private fun ShowDialog(msg: String) {

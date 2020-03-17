@@ -9,6 +9,7 @@ import android.location.LocationListener
 import android.os.*
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -114,35 +115,17 @@ class NextActivity : AppCompatActivity(), LocationListener {
                 val formattedDate2 = df2.format(c.time)
                 current_date_time = formattedDate2
 
-                /*if (databaseHandler.insertData(sessionManager.keyId!!,
-                                nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
-                                "Attendance", current_date, current_date, "", current_date_time)) {
-                    //ShowDialog("Successfully Attendance Out. Thank You.")
-                    val mydialog = Dialog(this@NextActivity)
-                    mydialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
-                    mydialog.setContentView(R.layout.custom_dialog)
-                    mydialog.setCancelable(false)
-
-                    val restart = mydialog.findViewById<View>(R.id.restart) as Button
-                    val titleTxt = mydialog.findViewById<TextView>(R.id.title_txt)
-                    titleTxt.text = "Successfully Attendance Out. Thank You."
-
-                    restart.setOnClickListener {
-                        mydialog.dismiss()
-                        //sessionManager.setIsExit(true)
-                        sessionManager.setIsFirst(false)
-                        finish()
-                    }
-                    mydialog.show()
-                } else {
-                    ErrorDialog("Please Try Again!")
-                }*/
-
-                saveTask(0, sessionManager.keyId!!,
-                        nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
-                        "Attendance", current_date, current_date, current_date_time)
-            }
+                try {
+                    saveTask(0, sessionManager.keyId!!,
+                            nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                            "Attendance", current_date, current_date,
+                            convertDate((mCurrentLocation!!.time).toString(), "dd-MM-yyyy HH:mm:ss"))
+                } catch (e: Exception) {
+                    saveTask(0, sessionManager.keyId!!,
+                            nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                            "Attendance", current_date, current_date, current_date_time)
+                }
+            }/*+ 19800000*/
             btnCancel.setOnClickListener { dialog.dismiss() }
             dialog.show()
         }
@@ -218,6 +201,10 @@ class NextActivity : AppCompatActivity(), LocationListener {
             startActivity(Intent(this@NextActivity, NewEventActivity::class.java))
             overridePendingTransition(R.anim.left_in, R.anim.right_out)
         }*/
+    }
+
+    private fun convertDate(dateInMilliseconds: String, dateFormat: String): String {
+        return DateFormat.format(dateFormat, dateInMilliseconds.toLong()).toString()
     }
 
     @SuppressLint("MissingPermission")
@@ -480,7 +467,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
             saveTask(1, sessionManager.keyId!!,
                     address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
-                    tvLongitude.text.toString(), "Task", current_date, current_date, current_date_time)
+                    tvLongitude.text.toString(), "Task", current_date, current_date, mCurrentLocation!!.time.toString())
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
 import android.content.Context
 
-class DatabaseClient private constructor(private val mCtx: Context) {
+class DatabaseClient private constructor(mCtx: Context) {
 
     //our app database object
     val appDatabase: AppDatabase = Room.databaseBuilder(mCtx, AppDatabase::class.java, "MyAttendance").build()
