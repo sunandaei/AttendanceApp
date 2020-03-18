@@ -233,11 +233,12 @@ class AttendanceActivity : AppCompatActivity(), LocationListener {
                 saveTask(sessionManager.keyId!!,
                         address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
                         "Attendance", current_date!!, current_date!!, /*current_date_time!!*/
-                        convertDate((mCurrentLocation!!.time).toString(), "dd-MM-yyyy HH:mm:ss"))
+                        convertDate((mCurrentLocation!!.time).toString(), "yyyy-MM-dd HH:mm:ss"))
             } catch (e: Exception) {
-                saveTask(sessionManager.keyId!!,
+                /*saveTask(sessionManager.keyId!!,
                         address.text.toString(), "Attendance In", tvLatitude.text.toString(), tvLongitude.text.toString(),
-                        "Attendance", current_date!!, current_date!!, current_date_time!!)
+                        "Attendance", current_date!!, current_date!!, current_date_time!!)*/
+                Toast.makeText(this@AttendanceActivity, "Please try again!", Toast.LENGTH_SHORT).show()
             }
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }

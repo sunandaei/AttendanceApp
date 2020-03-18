@@ -119,11 +119,12 @@ class NextActivity : AppCompatActivity(), LocationListener {
                     saveTask(0, sessionManager.keyId!!,
                             nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
                             "Attendance", current_date, current_date,
-                            convertDate((mCurrentLocation!!.time).toString(), "dd-MM-yyyy HH:mm:ss"))
+                            convertDate((mCurrentLocation!!.time).toString(), "yyyy-MM-dd HH:mm:ss"))
                 } catch (e: Exception) {
-                    saveTask(0, sessionManager.keyId!!,
+                    /*saveTask(0, sessionManager.keyId!!,
                             nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
-                            "Attendance", current_date, current_date, current_date_time)
+                            "Attendance", current_date, current_date, current_date_time)*/
+                    Toast.makeText(this@NextActivity, "Please try again!", Toast.LENGTH_SHORT).show()
                 }
             }/*+ 19800000*/
             btnCancel.setOnClickListener { dialog.dismiss() }
@@ -467,7 +468,8 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
             saveTask(1, sessionManager.keyId!!,
                     address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
-                    tvLongitude.text.toString(), "Task", current_date, current_date, mCurrentLocation!!.time.toString())
+                    tvLongitude.text.toString(), "Task", current_date, current_date,
+                    convertDate((mCurrentLocation!!.time).toString(), "yyyy-MM-dd HH:mm:ss"))
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()
