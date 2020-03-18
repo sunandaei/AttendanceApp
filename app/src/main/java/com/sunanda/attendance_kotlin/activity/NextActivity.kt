@@ -60,7 +60,7 @@ class NextActivity : AppCompatActivity(), LocationListener {
         setContentView(R.layout.activity_next)
 
         sessionManager = SessionManager(this)
-        address = findViewById(R.id.address)
+        address = findViewById<EditText>(R.id.address)
         task = findViewById(R.id.task)
         name = findViewById(R.id.name)
         email = findViewById(R.id.email)
@@ -115,11 +115,17 @@ class NextActivity : AppCompatActivity(), LocationListener {
                 val formattedDate2 = df2.format(c.time)
                 current_date_time = formattedDate2
 
+                updateLocationUI()
+
                 try {
-                    saveTask(0, sessionManager.keyId!!,
+                    /*saveTask(0, sessionManager.keyId!!,
                             nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
                             "Attendance", current_date, current_date,
-                            convertDate((mCurrentLocation!!.time).toString(), "yyyy-MM-dd HH:mm:ss"))
+                            convertDate((mCurrentLocation!!.time).toString(), "yyyy-MM-dd HH:mm:ss"))*/
+
+                    saveTask(0, sessionManager.keyId!!,
+                            nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
+                            "Attendance", current_date, current_date, current_date_time)
                 } catch (e: Exception) {
                     /*saveTask(0, sessionManager.keyId!!,
                             nwaddress, "Attendance Out", tvLatitude.text.toString(), tvLongitude.text.toString(),
@@ -457,6 +463,14 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
         dialog_positive_btn.setOnClickListener {
             dialog.dismiss()
+
+            val c = Calendar.getInstance()
+            @SuppressLint("SimpleDateFormat")
+            val df2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            @SuppressLint("SimpleDateFormat")
+            val formattedDate2 = df2.format(c.time)
+            current_date_time = formattedDate2
+
             //sendData()
             /*if (databaseHandler.insertData(sessionManager.keyId!!,
                             address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
@@ -468,8 +482,8 @@ class NextActivity : AppCompatActivity(), LocationListener {
 
             saveTask(1, sessionManager.keyId!!,
                     address.text.toString(), task.text.toString(), tvLatitude.text.toString(),
-                    tvLongitude.text.toString(), "Task", current_date, current_date,
-                    convertDate((mCurrentLocation!!.time).toString(), "yyyy-MM-dd HH:mm:ss"))
+                    tvLongitude.text.toString(), "Task", current_date, current_date, current_date_time
+                    /*convertDate((mCurrentLocation!!.time).toString(), "yyyy-MM-dd HH:mm:ss")*/)
         }
         dialog_neutral_btn.setOnClickListener { dialog.dismiss() }
         dialog.show()

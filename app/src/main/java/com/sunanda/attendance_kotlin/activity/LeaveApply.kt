@@ -296,8 +296,12 @@ class LeaveApply : AppCompatActivity() {
                 .build()
         val services = retrofit.create(ApiInterface::class.java)
 
+        val tempTime = current_date_time.split(" ")[0]
+
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,// not null
-                "NA", task.text.toString(), "0.0", "0.0", "Leave", Sdate, Edate, current_date_time, "")
+                "NA", task.text.toString(), "0.0", "0.0", "Leave", Sdate, Edate, current_date_time, "",
+                tempTime.split("-")[2], tempTime.split("-")[1], tempTime.split("-")[0])
+
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 

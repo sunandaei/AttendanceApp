@@ -22,7 +22,9 @@ interface ApiInterface {
                     @Field("address") address: String, @Field("task") task: String,
                     @Field("lat") lat: String, @Field("long") lon: String, @Field("type") type: String,
                     @Field("date_from") date_from: String, @Field("date_to") date_to: String,
-                    @Field("time") time: String, @Field("imageName") imageName: String): Call<ResponseBody>
+                    @Field("time") time: String, @Field("imageName") imageName: String,
+                    @Field("attn_day") day: String, @Field("attn_month") month: String,
+                    @Field("attn_year") year: String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("api-attendence-list")

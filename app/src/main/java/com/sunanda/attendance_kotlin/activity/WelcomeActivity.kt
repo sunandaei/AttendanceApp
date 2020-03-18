@@ -388,10 +388,13 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
                 .build()
         val services = retrofit.create(ApiInterface::class.java)
 
+        val tempTime = taskPojoArrayListDB[pos].time!!.split(" ")[0]
+
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 taskPojoArrayListDB[pos].address!!, taskPojoArrayListDB[pos].task!!, taskPojoArrayListDB[pos].lat!!,
                 taskPojoArrayListDB[pos].lon!!, "Event", taskPojoArrayListDB[pos].date_from!!,
-                taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, finename)
+                taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, finename,
+                tempTime.split("-")[2], tempTime.split("-")[1], tempTime.split("-")[0])
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
@@ -455,10 +458,13 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
                 .build()
         val services = retrofit.create(ApiInterface::class.java)
 
+        val tempTime = taskPojoArrayListDB[pos].time!!.split(" ")[0]
+
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 taskPojoArrayListDB[pos].address!!, taskPojoArrayListDB[pos].task!!, taskPojoArrayListDB[pos].lat!!,
                 taskPojoArrayListDB[pos].lon!!, "Attendance", taskPojoArrayListDB[pos].date_from!!,
-                taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, "")
+                taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, "",
+                tempTime.split("-")[2], tempTime.split("-")[1], tempTime.split("-")[0])
 
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
 
@@ -544,10 +550,13 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
                 taskPojoArrayListDB[pos].lon!!, "Attendance", taskPojoArrayListDB[pos].date_from!!,
                 taskPojoArrayListDB[pos].date_to!!, taskPojoArrayListDB[pos].time!!, "")*/
 
+        val tempTime = taskPojoRoomDB[pos].time!!.split(" ")[0]
+
         val loginResponseCall = services.insert_data("abc123456", sessionManager.keyId!!,
                 taskPojoRoomDB[pos].address!!, taskPojoRoomDB[pos].tasks!!, taskPojoRoomDB[pos].lat!!,
                 taskPojoRoomDB[pos].lon!!, "Attendance", taskPojoRoomDB[pos].date_from!!,
-                taskPojoRoomDB[pos].date_to!!, taskPojoRoomDB[pos].time!!, "")
+                taskPojoRoomDB[pos].date_to!!, taskPojoRoomDB[pos].time!!, "",
+                tempTime.split("-")[2], tempTime.split("-")[1], tempTime.split("-")[0])
 
         loginResponseCall.enqueue(object : Callback<ResponseBody> {
 

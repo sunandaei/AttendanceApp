@@ -57,6 +57,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun NextTask() {
+
         val getDate = sessionManager.prefsDate
 
         val c = Calendar.getInstance()
@@ -69,26 +70,6 @@ class SplashActivity : AppCompatActivity() {
                 val todayDate = df.parse(formattedDate)
                 val fDate = df.parse(getDate)
                 if (todayDate == fDate) {
-                    /*if (!sessionManager.isExit) {
-                        startActivity(Intent(this@SplashActivity, NextActivity::class.java))
-                        overridePendingTransition(R.anim.left_in, R.anim.right_out)
-                        finish()
-                        } else {
-                            val dialog = Dialog(this)
-                            dialog.setContentView(R.layout.custom_dialog3)
-                            val text_dialog = dialog.findViewById<View>(R.id.text_dialog) as TextView
-                            val btn_dialog = dialog.findViewById<TextView>(R.id.btn_dialog) as Button
-                            text_dialog.text = "You have already 'Attendance Out' from the APP. Please try again tomorrow."
-                            btn_dialog.text = "DISMISS"
-                            // if button is clicked, close the custom dialog
-                            btn_dialog.setOnClickListener {
-                                dialog.dismiss()
-                                finish()
-                            }
-                            dialog.show()
-                            dialog.setCancelable(false)
-                        }*/
-
                     if (sessionManager.isFirstTIme) {
                         startActivity(Intent(this@SplashActivity, NextActivity::class.java))
                         overridePendingTransition(R.anim.left_in, R.anim.right_out)
@@ -98,21 +79,13 @@ class SplashActivity : AppCompatActivity() {
                         overridePendingTransition(R.anim.left_in, R.anim.right_out)
                         finish()
                     }
-                }
-                /*if (sessionManager.isFirstTIme) {
-                    startActivity(Intent(this@SplashActivity, NextActivity::class.java))
-                    overridePendingTransition(R.anim.left_in, R.anim.right_out)
-                    finish()
-                }*/ else {
-                    //sessionManager.setIsExit(false)
-                    //sessionManager.setIsFirst(true)
+                } else {
                     sessionManager.SetDate(formattedDate)
                     startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
                     overridePendingTransition(R.anim.left_in, R.anim.right_out)
                     finish()
                 }
             } else {
-                //sessionManager.setIsExit(false)
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 overridePendingTransition(R.anim.left_in, R.anim.right_out)
                 finish()
