@@ -7,6 +7,7 @@ import android.content.IntentSender
 import android.location.Location
 import android.location.LocationListener
 import android.os.*
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.text.format.DateFormat

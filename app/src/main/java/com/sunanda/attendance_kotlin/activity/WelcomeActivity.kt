@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -191,7 +192,18 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
 
         attendance.setOnClickListener {
 
-            if (mCurrentLocation == null) {
+            getPermission()
+            turnGPSOn1(this@WelcomeActivity, mGoogleApiClient)
+            checkPlayServices()
+            createLocationRequest()
+            startLocationUpdates()
+
+            startActivity(Intent(this@WelcomeActivity, AttendanceActivity::class.java))
+            overridePendingTransition(R.anim.left_in, R.anim.right_out)
+            finishAffinity()
+
+
+            /*if (mCurrentLocation == null) {
                 //Toast.makeText(SampleCollection_Activity.this, "Please wait for Location...", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder(this@WelcomeActivity)
                         .setTitle("Google Location Warning")
@@ -212,7 +224,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
                 startActivity(Intent(this@WelcomeActivity, AttendanceActivity::class.java))
                 overridePendingTransition(R.anim.left_in, R.anim.right_out)
                 finishAffinity()
-            }
+            }*/
 
             /* AlertDialog.Builder(this)
                      .setTitle("Google Location Warning")
@@ -566,7 +578,7 @@ class WelcomeActivity : AppCompatActivity(), LocationListener, GoogleApiClient.C
 
                     try {
                         val jsonObject = JSONObject(response.body()!!.string())
-                        Log.d("RESPONSE", jsonObject.toString())
+                        //Log.d("RESPONSE", jsonObject.toString())
                         if (jsonObject.getInt("resCode") == 200) {
                             //ShowDialog(jsonObject.getString("message"))
                             deleteTask(taskPojoRoomDB[pos])

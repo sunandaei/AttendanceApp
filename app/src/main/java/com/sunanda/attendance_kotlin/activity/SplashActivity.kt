@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.Window
@@ -39,7 +40,20 @@ class SplashActivity : AppCompatActivity() {
         StartAnimations()
 
         val SPLASH_TIME_OUT = 4000
-        Handler().postDelayed({ NextTask() }, SPLASH_TIME_OUT.toLong())
+        Handler().postDelayed({
+            AlertDialog.Builder(this)
+                    .setTitle("Google Location Warning")
+                    .setMessage("Before proceed please make sure your 'Location' setting is turned on.")
+                    .setPositiveButton(android.R.string.ok) { dialog, which ->
+                        dialog.dismiss()
+                        NextTask()
+                    }
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    //.setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setCancelable(false)
+                    .show()
+        }, SPLASH_TIME_OUT.toLong())
     }
 
     private fun StartAnimations() {
